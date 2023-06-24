@@ -6,4 +6,18 @@
 
 namespace Engine
 {
+void GameObject::update(float dt)
+{
+    for(auto comp : components)
+    {
+        if(comp.second != nullptr)
+        {
+            comp.second->update(dt);
+            if(comp.first == string(typeid(UIRenderer).name()))
+            {
+                static_pointer_cast<UIRenderer>(comp.second)->render(*getComponent<RectTransform>().lock());
+            }
+        }
+    }
+}
 } // Engine

@@ -18,6 +18,7 @@ public:
     inline static Scene* activeScene;
 
     inline void addGameObject(GameObject& gameObject){ gameObjects.push_back(&gameObject); }
+    void update(float dt);
 private:
     int sceneId = -1;
     std::vector<GameObject*> gameObjects;

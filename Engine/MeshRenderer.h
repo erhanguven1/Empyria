@@ -11,10 +11,9 @@
 namespace Engine
 {
 
-class MeshRenderer : public Component<MeshRenderer>
+class MeshRenderer : public Component
 {
-    friend class Mesh;
-
+friend class Mesh;
 public:
     void update(float dt) override;
 private:

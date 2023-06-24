@@ -8,7 +8,6 @@
 namespace Engine
 {
 
-template <class T>
 class Component
 {
 public:

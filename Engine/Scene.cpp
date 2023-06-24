@@ -12,4 +12,12 @@ Scene::Scene(unsigned int scene_id)
 
 }
 
+void Scene::update(float dt)
+{
+    for(auto go : gameObjects)
+    {
+        go->update(dt);
+    }
+}
+
 } // Engine

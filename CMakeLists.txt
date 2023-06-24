@@ -8,7 +8,7 @@ add_library(glad include/glad/src/glad.c)
 include_directories(.)
 include_directories(include)
 
-add_executable(Empyria main.cpp Engine/Window.cpp Engine/Window.h Engine/InputHandler.cpp Engine/InputHandler.h Engine/Scene.cpp Engine/Scene.h Engine/SceneManager.cpp Engine/SceneManager.h Engine/GameObject.cpp Engine/GameObject.h Engine/Component.h Engine/MeshRenderer.cpp Engine/MeshRenderer.h Engine/Mesh.cpp Engine/Mesh.h Engine/UIElement.cpp Engine/UIElement.h)
+add_executable(Empyria main.cpp Engine/Window.cpp Engine/Window.h Engine/InputHandler.cpp Engine/InputHandler.h Engine/Scene.cpp Engine/Scene.h Engine/SceneManager.cpp Engine/SceneManager.h Engine/GameObject.cpp Engine/GameObject.h Engine/Component.h Engine/MeshRenderer.cpp Engine/MeshRenderer.h Engine/Mesh.cpp Engine/Mesh.h Engine/loadShader.hpp Engine/Transform.cpp Engine/Transform.h Engine/RectTransform.cpp Engine/RectTransform.h Engine/UIObject.cpp Engine/UIObject.h Engine/UIRenderer.cpp Engine/UIRenderer.h Engine/Shaders/Shaders.h)
 include_directories(include/glad/include)
 
 find_package(OpenGL REQUIRED)

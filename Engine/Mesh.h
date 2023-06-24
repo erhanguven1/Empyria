@@ -14,14 +14,25 @@ namespace Engine
 
 class Mesh
 {
+    friend class UIRenderer;
+    friend class MeshRenderer;
+
 public:
-    void init(const GLfloat vertex_buffer_data[], const size_t size, const int count1);
+    void init(const GLfloat vertexBufferData[], const size_t size, const int count1);
 
 private:
-    GLuint* vertexBuffer = nullptr;
-    GLuint* colorBuffer = nullptr;
+    GLfloat vertex_buffer_data[18] =
+            {
+                    -1,1,0,
+                    -1,-1,0,
+                    1,1,0,
+
+                    -1,-1,0,
+                    1,1,0,
+                    1,-1,0,
+            };
+    GLuint vertexBuffer;
     GLuint vao;
-    GLuint vertexCount;
 };
 
 } // Engine
