@@ -4,13 +4,15 @@ layout (location = 1) in vec3 aColor;
 layout (location = 2) in vec2 aTexCoord;
 
 uniform vec2 pos;
+uniform vec2 scale;
 
 out vec3 col;
 out vec2 texCoord;
 
 void main()
 {
-    gl_Position = vec4((aPos.x + pos.x)/10.0, (aPos.y + pos.y)/10.0, 0.0, 1.0);
+    vec2 scaledPos = vec2(aPos.x * scale.x, aPos.y * scale.y);
+    gl_Position = vec4(scaledPos + pos, 0.0, 1.0);
     col = aColor;
     texCoord = aTexCoord;
 }

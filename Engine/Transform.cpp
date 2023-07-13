@@ -6,4 +6,8 @@
 
 namespace Engine
 {
+void Transform::start()
+{
+
+}
 } // Engine

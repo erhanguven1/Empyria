@@ -11,6 +11,7 @@ namespace Engine
 class Component
 {
 public:
+    virtual void start() = 0;
     virtual void update(float dt) = 0;
 private:
 

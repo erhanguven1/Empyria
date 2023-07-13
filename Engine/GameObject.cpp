@@ -24,4 +24,13 @@ void GameObject::update(float dt)
         }
     }
 }
+
+void GameObject::start()
+{
+    for(auto comp : components)
+    {
+        if(comp.second != nullptr)
+            comp.second->start();
+    }
+}
 } // Engine

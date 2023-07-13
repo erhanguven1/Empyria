@@ -3,9 +3,9 @@
 //
 
 #include "UIRenderer.h"
-#include "Shaders/Shaders.h"
+#include "Engine/Shaders/Shaders.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "Engine/stb_image.h"
 
 namespace Engine
 {
@@ -26,6 +26,11 @@ void UIRenderer::init(std::string texturePath)
                      texturePath);
 }
 
+void UIRenderer::start()
+{
+
+}
+
 void UIRenderer::update(float dt)
 {
 
@@ -36,6 +41,9 @@ void UIRenderer::render(RectTransform& rectTransform)
     auto modifiedTransform = rectTransform;
     modifiedTransform.position.x /= 1024.0f;
     modifiedTransform.position.y /= 768.0f;
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -49,6 +57,10 @@ void UIRenderer::render(RectTransform& rectTransform)
 
     GLuint posID = glGetUniformLocation(Shaders::uiShaderProgram, "pos");
     glUniform2fv(posID, 1, &modifiedTransform.position[0]);
+
+    GLuint scaleMultiplerId = glGetUniformLocation(Shaders::uiShaderProgram, "scale");
+    glUniform2fv(scaleMultiplerId, 1, &modifiedTransform.scale[0]);
+
     glBindTexture(GL_TEXTURE_2D, mesh->texture);
     glBindVertexArray(mesh->vao);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

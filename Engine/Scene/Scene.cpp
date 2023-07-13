@@ -13,6 +13,22 @@ Scene::Scene()
     SceneManager::addScene(this);
 }
 
+void Scene::start()
+{
+    for(int i = 0; i < gameObjects.size(); i++)
+    {
+        auto count = gameObjects[i].size();
+        for(int j = 0; j < count; j++)
+        {
+            auto go = gameObjects[i][j].get();
+            if(go == nullptr)
+                continue;
+
+            go->start();
+        }
+    }
+}
+
 void Scene::update(float dt)
 {
     for(int i = 0; i < gameObjects.size(); i++)

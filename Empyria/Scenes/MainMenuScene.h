@@ -6,8 +6,8 @@
 #define EMPYRIA_MAINMENUSCENE_H
 
 #include "Engine/EmpyriaEngine.h"
-#include "Engine/Scene.h"
-#include "Engine/UIObject.h"
+#include "Engine/Scene/Scene.h"
+#include "Engine/UI/UIObject.h"
 #include "Engine/ModelObject.h"
 
 using namespace Engine;
@@ -23,10 +23,8 @@ public:
     MainMenuScene();
     void update(float dt) override;
 private:
-    UIObject* button1 = nullptr;
-    UIObject* button2 = nullptr;
-    ModelObject* modelObject = nullptr;
-
+    UIObject* background = nullptr;
+    UIObject* playButton = nullptr;
 };
 
 } // Empyria

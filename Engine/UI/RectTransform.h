@@ -5,7 +5,7 @@
 #ifndef EMPYRIA_RECTTRANSFORM_H
 #define EMPYRIA_RECTTRANSFORM_H
 
-#include "Component.h"
+#include "Engine/Component.h"
 #include <glm/glm.hpp>
 using namespace glm;
 namespace Engine
@@ -16,6 +16,8 @@ class RectTransform : public Component
 public:
     vec2 position = vec2(0);
     vec2 scale = vec2(1);
+
+    void start() override;
 
     void update(float dt) override;
 private:

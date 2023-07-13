@@ -20,6 +20,8 @@ public:
     vec3 rotation = vec3(0,1,0);
     vec3 scale = vec3(1);
 
+    void start() override;
+
     void update(float dt) override
     {
 

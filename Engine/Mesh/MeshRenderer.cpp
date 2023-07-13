@@ -4,10 +4,10 @@
 
 #include "MeshRenderer.h"
 #include <string>
-#include "Shaders/Shaders.h"
+#include "Engine/Shaders/Shaders.h"
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
-#include "Camera.h"
+#include "Engine/Camera.h"
 
 using namespace std;
 
@@ -66,6 +66,11 @@ void MeshRenderer::init(const PrimitiveTypes& primitiveType, std::string texture
     mesh->initMesh(vertex_buffer_data, sizeof(vertex_buffer_data), sizeof(vertex_buffer_data) / (8 * sizeof(GLfloat)), texturePath);
 
     model = glm::mat4(1.0f);
+}
+
+void MeshRenderer::start()
+{
+
 }
 
 void MeshRenderer::update(float dt)

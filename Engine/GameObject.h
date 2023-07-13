@@ -8,10 +8,10 @@
 #include <iostream>
 #include "Component.h"
 #include <unordered_map>
-#include "MeshRenderer.h"
+#include "Engine/Mesh/MeshRenderer.h"
 #include "Transform.h"
-#include "RectTransform.h"
-#include "UIRenderer.h"
+#include "Engine/UI/RectTransform.h"
+#include "Engine/UI/UIRenderer.h"
 
 #include <string>
 
@@ -27,6 +27,7 @@ class GameObject
 friend class Scene;
 friend class shared_ptr;
 public:
+    virtual void start();
     virtual void update(float dt);
 
     template<class T>

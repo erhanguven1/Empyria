@@ -6,6 +6,12 @@
 
 namespace Engine
 {
+
+void RectTransform::start()
+{
+
+}
+
 void RectTransform::update(float dt)
 {
 

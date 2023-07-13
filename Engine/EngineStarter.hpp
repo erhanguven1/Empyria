@@ -8,10 +8,10 @@
 
 #include <iostream>
 #include "Engine/Window.h"
-#include "Engine/InputHandler.h"
+#include "Engine/Input/InputHandler.h"
 #include "Engine/loadShader.hpp"
 #include "Engine/Shaders/Shaders.h"
-#include "SceneManager.h"
+#include "Engine/Scene/SceneManager.h"
 #include "Engine/EmpyriaEngine.h"
 
 const int width = 1024;

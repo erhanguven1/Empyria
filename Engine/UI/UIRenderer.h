@@ -5,8 +5,8 @@
 #ifndef EMPYRIA_UIRENDERER_H
 #define EMPYRIA_UIRENDERER_H
 
-#include "Component.h"
-#include "Mesh.h"
+#include "Engine/Component.h"
+#include "Engine/Mesh/Mesh.h"
 #include "RectTransform.h"
 
 namespace Engine
@@ -18,6 +18,7 @@ friend class Mesh;
 public:
     void init(std::string texturePath = "");
 
+    void start() override;
     void update(float dt) override;
     void render(RectTransform& rectTransform);
 

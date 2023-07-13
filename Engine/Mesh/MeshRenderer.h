@@ -5,12 +5,12 @@
 #ifndef EMPYRIA_MESHRENDERER_H
 #define EMPYRIA_MESHRENDERER_H
 
-#include "Component.h"
+#include "Engine/Component.h"
 #include "Mesh.h"
-#include "PrimitiveType.h"
+#include "Engine/PrimitiveType.h"
 #include <unordered_map>
 #include <vector>
-#include "Transform.h"
+#include "Engine/Transform.h"
 
 namespace Engine
 {
@@ -20,6 +20,7 @@ class MeshRenderer : public Component
 friend class Mesh;
 public:
     void init(const PrimitiveTypes& primitiveType, std::string texturePath = "");
+    void start() override;
     void update(float dt) override;
     void render(Transform& transform);
 

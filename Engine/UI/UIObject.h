@@ -5,7 +5,7 @@
 #ifndef EMPYRIA_UIOBJECT_H
 #define EMPYRIA_UIOBJECT_H
 
-#include "GameObject.h"
+#include "Engine/GameObject.h"
 
 namespace Engine
 {

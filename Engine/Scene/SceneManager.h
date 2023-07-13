@@ -29,6 +29,11 @@ public:
         activeScene = scene;
     }
 
+    inline static void loadScene(unsigned int sceneId)
+    {
+        setActiveScene(scenes[sceneId]);
+    }
+
 private:
     inline static Scene* activeScene;
     inline static std::vector<Scene*> scenes;

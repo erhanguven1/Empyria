@@ -6,7 +6,7 @@
 #define EMPYRIA_SCENE_H
 
 #include <vector>
-#include "GameObject.h"
+#include "Engine/GameObject.h"
 #include <map>
 
 namespace Engine
@@ -23,6 +23,7 @@ public:
         return (T*)gameObjects[order].back().get();
     }
 
+    virtual void start();
     virtual void update(float dt);
     int sceneId = -1;
     Scene();
