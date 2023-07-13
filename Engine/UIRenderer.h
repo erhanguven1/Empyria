@@ -16,7 +16,8 @@ class UIRenderer : public Component
 {
 friend class Mesh;
 public:
-    UIRenderer();
+    void init(std::string texturePath = "");
+
     void update(float dt) override;
     void render(RectTransform& rectTransform);
 

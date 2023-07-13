@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "GameObject.h"
+#include <map>
 
 namespace Engine
 {
@@ -14,14 +15,19 @@ namespace Engine
 class Scene
 {
 public:
-    Scene(unsigned int scene_id);
-    inline static Scene* activeScene;
+    template<class T, typename... Args>
+    inline T* instantiateGameObject(int order, Args&&... args)
+    {
+        gameObjects[order].push_back(gameObject_shared_ptr<T>(std::forward<Args>(args)...));
+        gameObjects[order].back().get()->setOrder(order);
+        return (T*)gameObjects[order].back().get();
+    }
 
-    inline void addGameObject(GameObject& gameObject){ gameObjects.push_back(&gameObject); }
-    void update(float dt);
-private:
+    virtual void update(float dt);
     int sceneId = -1;
-    std::vector<GameObject*> gameObjects;
+    Scene();
+
+    std::map<int, vector<unique_ptr<GameObject, GameObjectDeleter>>> gameObjects;
 };
 
 } // Engine

@@ -4,24 +4,26 @@
 
 #include "UIRenderer.h"
 #include "Shaders/Shaders.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 namespace Engine
 {
-UIRenderer::UIRenderer()
+void UIRenderer::init(std::string texturePath)
 {
-    GLfloat vertex_buffer_data[18] =
-            {
-                    -1,1,0,
-                    -1,-1,0,
-                    1,1,0,
-
-                    -1,-1,0,
-                    1,1,0,
-                    1,-1,0,
-            };
+    float vertex_buffer_data[] = {
+            // positions                    // colors                      // texture coords
+            0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,   // top right
+            0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // bottom right
+            -0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+            -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f    // top left
+    };
 
     mesh = new Mesh();
-    mesh->init(vertex_buffer_data, sizeof(vertex_buffer_data), sizeof(vertex_buffer_data)/(3*sizeof(GLfloat)));
+    if(texturePath == "")
+        texturePath = "default_texture.png";
+    mesh->initUIMesh(vertex_buffer_data, sizeof(vertex_buffer_data), sizeof(vertex_buffer_data) / (8 * sizeof(GLfloat)),
+                     texturePath);
 }
 
 void UIRenderer::update(float dt)
@@ -31,13 +33,24 @@ void UIRenderer::update(float dt)
 
 void UIRenderer::render(RectTransform& rectTransform)
 {
+    auto modifiedTransform = rectTransform;
+    modifiedTransform.position.x /= 1024.0f;
+    modifiedTransform.position.y /= 768.0f;
+
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    glOrtho(0.0, 1024, 768, 0.0, -1.0, -10.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glDisable(GL_CULL_FACE);
+    glClear(GL_DEPTH_BUFFER_BIT);
     glUseProgram(Shaders::uiShaderProgram);
 
     GLuint posID = glGetUniformLocation(Shaders::uiShaderProgram, "pos");
-    //auto pos = glm::vec2(0.5f,-0.5f);
-    glUniform2fv(posID, 1, &rectTransform.position[0]);
-
+    glUniform2fv(posID, 1, &modifiedTransform.position[0]);
+    glBindTexture(GL_TEXTURE_2D, mesh->texture);
     glBindVertexArray(mesh->vao);
-    glDrawArrays(GL_TRIANGLES, 0, 6); // Starting from vertex 0; 3 vertices total -> 1 triangle
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 } // Engine

@@ -13,8 +13,17 @@ namespace Engine
 class UIObject : public GameObject
 {
 public:
-    UIObject();
-private:
+    UIObject()
+    {
+
+    }
+    UIObject(string imagePath);
+
+protected:
+    ~UIObject() override
+    {
+
+    }
 };
 
 } // Engine

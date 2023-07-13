@@ -14,6 +14,7 @@ class Shaders
 {
 public:
     inline static GLuint uiShaderProgram;
+    inline static GLuint standardShaderProgram;
 };
 
 } // Engine

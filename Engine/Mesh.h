@@ -8,6 +8,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <string>
 
 namespace Engine
 {
@@ -18,8 +19,8 @@ class Mesh
     friend class MeshRenderer;
 
 public:
-    void init(const GLfloat vertexBufferData[], const size_t size, const int count1);
-
+    void initUIMesh(const GLfloat vertex_buffer_data[], const size_t size, const int count1, std::string& path);
+    void initMesh(const GLfloat vertex_buffer_data[], const size_t size, const int count1, std::string& path);
 private:
     GLfloat vertex_buffer_data[18] =
             {
@@ -32,7 +33,9 @@ private:
                     1,-1,0,
             };
     GLuint vertexBuffer;
+    GLuint elementBuffer;
     GLuint vao;
+    GLuint texture;
 };
 
 } // Engine

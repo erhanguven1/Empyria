@@ -3,20 +3,53 @@
 //
 
 #include "Scene.h"
+#include "SceneManager.h"
 
 namespace Engine
 {
 
-Scene::Scene(unsigned int scene_id)
+Scene::Scene()
 {
-
+    SceneManager::addScene(this);
 }
 
 void Scene::update(float dt)
 {
-    for(auto go : gameObjects)
+    for(int i = 0; i < gameObjects.size(); i++)
     {
-        go->update(dt);
+        auto count = gameObjects[i].size();
+        for(int j = 0; j < count; j++)
+        {
+            auto go = gameObjects[i][j].get();
+            if(go == nullptr)
+                continue;
+
+            if (go->isDead)
+            {
+                go->isDead = false;
+
+                gameObjects[go->getOrder()][j]->deleteGameObject();
+                //gameObjects[i].erase(gameObjects[i].begin() + j);
+
+                gameObjects[i][j].release();
+                j--;
+                continue;
+            }
+            go->update(dt);
+        }
+        /*for(auto go : pair.second)
+        {
+            if (go->isDead)
+            {
+                go->isDead = false;
+                removeGameObject(go->getOrder(), i);
+                go.reset();
+                auto* k = go.get();
+                continue;
+            }
+            go->update(dt);
+            i++;
+        }*/
     }
 }
 

@@ -22,6 +22,15 @@ private:
 
 };
 
+enum class SCREEN_FIXED_POSITIONS
+{
+    TOP = 0x01,
+    BOTTOM = 0x02,
+    LEFT = 0x4,
+    RIGHT = 0x08,
+
+};
+
 } // Engine
 
 #endif //EMPYRIA_RECTTRANSFORM_H

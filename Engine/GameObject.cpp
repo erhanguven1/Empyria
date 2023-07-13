@@ -15,7 +15,11 @@ void GameObject::update(float dt)
             comp.second->update(dt);
             if(comp.first == string(typeid(UIRenderer).name()))
             {
-                static_pointer_cast<UIRenderer>(comp.second)->render(*getComponent<RectTransform>().lock());
+                static_pointer_cast<UIRenderer>(comp.second)->render(*getComponent<RectTransform>());
+            }
+            else if(comp.first == string(typeid(MeshRenderer).name()))
+            {
+                static_pointer_cast<MeshRenderer>(comp.second)->render(*getComponent<Transform>());
             }
         }
     }
