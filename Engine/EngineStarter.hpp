@@ -22,6 +22,7 @@ constexpr float aspectRatio = calAspectRatio();
 
 using namespace Engine;
 Window* window = nullptr;
+bool closeWindow = false;
 void startEngine()
 {
     window = new Window();
@@ -47,6 +48,12 @@ void startEngine()
         instance->cursorPosEvent(xPos, yPos);
     });
 
+    glfwSetMouseButtonCallback(window->getGLFWwindow(), [](GLFWwindow* window, int button, int action, int mods)
+    {
+        InputHandler* instance = static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
+        instance->mouseButtonEvent(button, action, mods);
+    });
+
     // Set the user pointer for the window
     glfwSetWindowUserPointer(window->getGLFWwindow(), &inputHandler);
 
@@ -60,7 +67,7 @@ void startLoop()
     double lastUpdateTime = 0;  // number of seconds since the last loop
     double lastFrameTime = 0;   // number of seconds since the last frame
 
-    while( glfwGetKey(window->getGLFWwindow(), GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window->getGLFWwindow()) == 0 )
+    while( !closeWindow && (glfwGetKey(window->getGLFWwindow(), GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window->getGLFWwindow()) == 0) )
     {
         double now = glfwGetTime();
         double deltaTime = now - lastUpdateTime;

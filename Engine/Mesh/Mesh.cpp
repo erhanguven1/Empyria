@@ -14,6 +14,8 @@ void Mesh::initUIMesh(const GLfloat *vertex_buffer_data, const size_t size, cons
             1, 2, 3  // second triangle
     };
 
+    indexBufferElementCount = 6;
+
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vertexBuffer);
     glGenBuffers(1, &elementBuffer);
@@ -51,15 +53,15 @@ void Mesh::initUIMesh(const GLfloat *vertex_buffer_data, const size_t size, cons
     stbi_set_flip_vertically_on_load(true);
 
     // load image, create texture and generate mipmaps
-    int width, height, nrChannels;
+    int nrChannels;
     // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-    unsigned char *data = stbi_load(("/Users/erhanguven/CLionProjects/Empyria/Empyria/Textures/"+path).c_str(), &width, &height, &nrChannels, 0);
+    unsigned char *data = stbi_load(("/Users/erhanguven/CLionProjects/Empyria/Empyria/Textures/"+path).c_str(), &rawWidth, &rawHeight, &nrChannels, 0);
     if (data)
     {
         if(nrChannels == 3)
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, rawWidth, rawHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         else if(nrChannels == 4)
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, rawWidth, rawHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
         glGenerateMipmap(GL_TEXTURE_2D);
     }
@@ -68,17 +70,25 @@ void Mesh::initUIMesh(const GLfloat *vertex_buffer_data, const size_t size, cons
         printf("Data couldn't be loaded");
     }
     stbi_image_free(data);
+    glBindVertexArray(0);
+
 }
 
-void Mesh::initMesh(const GLfloat *vertex_buffer_data, const size_t size, const int count1, std::string& path)
+void Mesh::initMesh(const GLfloat *vertex_buffer_data, const GLuint *indices, const size_t vertexBufferSize, const size_t indicesSize, std::string& path)
 {
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vertexBuffer);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, size, vertex_buffer_data, GL_STATIC_DRAW);
+    glGenBuffers(1, &elementBuffer);
 
     glBindVertexArray(vao);
+
+
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, vertex_buffer_data, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices, GL_STATIC_DRAW);
+
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -87,6 +97,10 @@ void Mesh::initMesh(const GLfloat *vertex_buffer_data, const size_t size, const 
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
+    this->vertexBufferSize = vertexBufferSize;
+    indexBufferElementCount = indicesSize / sizeof(unsigned int);
+
+    #pragma region TextureGeneration
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
     // set the texture wrapping parameters
@@ -111,5 +125,8 @@ void Mesh::initMesh(const GLfloat *vertex_buffer_data, const size_t size, const 
         printf("Data couldn't be loaded");
     }
     stbi_image_free(data);
+    #pragma endregion
+
+    glBindVertexArray(0);
 }
 } // Engine

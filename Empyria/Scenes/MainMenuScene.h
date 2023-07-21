@@ -8,7 +8,7 @@
 #include "Engine/EmpyriaEngine.h"
 #include "Engine/Scene/Scene.h"
 #include "Engine/UI/UIObject.h"
-#include "Engine/ModelObject.h"
+#include "Engine/GameObject/ModelObject.h"
 
 using namespace Engine;
 
@@ -25,6 +25,7 @@ public:
 private:
     UIObject* background = nullptr;
     UIObject* playButton = nullptr;
+    UIObject* exitButton = nullptr;
 };
 
 } // Empyria

@@ -53,19 +53,6 @@ void Scene::update(float dt)
             }
             go->update(dt);
         }
-        /*for(auto go : pair.second)
-        {
-            if (go->isDead)
-            {
-                go->isDead = false;
-                removeGameObject(go->getOrder(), i);
-                go.reset();
-                auto* k = go.get();
-                continue;
-            }
-            go->update(dt);
-            i++;
-        }*/
     }
 }
 

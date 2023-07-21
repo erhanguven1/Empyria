@@ -20,7 +20,7 @@ class Mesh
 
 public:
     void initUIMesh(const GLfloat vertex_buffer_data[], const size_t size, const int count1, std::string& path);
-    void initMesh(const GLfloat vertex_buffer_data[], const size_t size, const int count1, std::string& path);
+    void initMesh(const GLfloat vertex_buffer_data[], const GLuint indices[], const size_t vertexBufferSize, const size_t indicesSize, std::string& path);
 private:
     GLfloat vertex_buffer_data[18] =
             {
@@ -36,6 +36,12 @@ private:
     GLuint elementBuffer;
     GLuint vao;
     GLuint texture;
+
+    int rawWidth;
+    int rawHeight;
+
+    int indexBufferElementCount = 0;
+    int vertexBufferSize = 0;
 };
 
 } // Engine

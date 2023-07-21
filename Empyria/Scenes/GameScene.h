@@ -21,6 +21,7 @@ public:
     GameScene();
     void update(float dt) override;
 private:
+    GameObject* car = nullptr;
 };
 
 } // Empyria

@@ -5,7 +5,7 @@
 #ifndef EMPYRIA_RECTTRANSFORM_H
 #define EMPYRIA_RECTTRANSFORM_H
 
-#include "Engine/Component.h"
+#include "Engine/GameObject/Component.h"
 #include <glm/glm.hpp>
 using namespace glm;
 namespace Engine

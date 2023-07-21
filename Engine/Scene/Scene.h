@@ -6,7 +6,7 @@
 #define EMPYRIA_SCENE_H
 
 #include <vector>
-#include "Engine/GameObject.h"
+#include "Engine/GameObject/GameObject.h"
 #include <map>
 
 namespace Engine

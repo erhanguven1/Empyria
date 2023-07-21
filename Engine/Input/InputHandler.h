@@ -17,8 +17,10 @@ class InputHandler
 public:
     void keyEvent(int key, int action);
     void cursorPosEvent(double xPos, double yPos);
+    void mouseButtonEvent(int button, int action, int mods);
     inline static std::unordered_map<int, int> keyStates;
-    inline static glm::vec2 mouseState = glm::vec2(0.0f);
+    inline static std::unordered_map<int, int> mouseStates;
+    inline static glm::vec2 mousePosition = glm::vec2(0.0f);
     inline static bool isPressingKey(int keycode)
     {
         return keyStates[keycode] == GLFW_REPEAT || keyStates[keycode] == GLFW_PRESS;

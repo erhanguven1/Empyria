@@ -5,6 +5,7 @@
 #ifndef EMPYRIA_SCENEMANAGER_H
 #define EMPYRIA_SCENEMANAGER_H
 
+#include <unistd.h>
 #include "Scene.h"
 
 namespace Engine
@@ -31,6 +32,12 @@ public:
 
     inline static void loadScene(unsigned int sceneId)
     {
+        setActiveScene(scenes[sceneId]);
+    }
+
+    inline static void loadScene(unsigned int sceneId, const unsigned int waitTime)
+    {
+        sleep(waitTime);
         setActiveScene(scenes[sceneId]);
     }
 

@@ -6,13 +6,13 @@
 
 namespace Engine
 {
-UIObject::UIObject(string imagePath)
+UIObject::UIObject(string imagePath, bool isButton)
 {
     addComponent<RectTransform>();
     addComponent<UIRenderer>();
     if(auto uiRenderer = getComponent<UIRenderer>())
     {
-        uiRenderer->init(imagePath);
+        uiRenderer->init(imagePath, isButton);
     }
 }
 } // Engine

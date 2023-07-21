@@ -5,7 +5,7 @@
 #ifndef EMPYRIA_UIOBJECT_H
 #define EMPYRIA_UIOBJECT_H
 
-#include "Engine/GameObject.h"
+#include "Engine/GameObject/GameObject.h"
 
 namespace Engine
 {
@@ -17,7 +17,7 @@ public:
     {
 
     }
-    UIObject(string imagePath);
+    UIObject(string imagePath, bool isButton = false);
 
 protected:
     ~UIObject() override

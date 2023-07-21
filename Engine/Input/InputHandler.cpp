@@ -3,6 +3,7 @@
 //
 
 #include "InputHandler.h"
+#include <iostream>
 
 namespace Engine
 {
@@ -13,21 +14,13 @@ void InputHandler::keyEvent(int key, int action)
 
 void InputHandler::cursorPosEvent(double xPos, double yPos)
 {
-    if(xPos > last_xPos)
-        mouseState.x = 1;
-    else if(xPos < last_xPos)
-        mouseState.x = -1;
-    else
-        mouseState.x = 0;
+    mousePosition.x = xPos;
+    mousePosition.y = yPos;
+}
 
-    if(yPos > last_yPos)
-        mouseState.y = 1;
-    else if(yPos < last_yPos)
-        mouseState.y = -1;
-    else
-        mouseState.y = 0;
-
-    last_xPos = xPos;
-    last_yPos = yPos;
+void InputHandler::mouseButtonEvent(int button, int action, int mods)
+{
+    mouseStates[button] = action;
+    std::cout << "Button: " << button << " State: " << action << " \n";
 }
 } // Engine
