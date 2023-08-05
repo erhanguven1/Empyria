@@ -26,6 +26,7 @@ public:
 
     bool spawned = false;
     bool spawnedCube = false;
+    bool deletedCube = false;
     vec3 spawnedCubePos;
 private:
     Player* player = nullptr;

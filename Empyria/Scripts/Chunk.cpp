@@ -83,6 +83,12 @@ void Chunk::deleteBlock(vec3 &pos)
     {
         blocks[x][y][z]->destroy();
         blocks[x][y][z] = nullptr;
+
+        BlockStateMessage msg;
+        msg.add = false;
+        msg.pos = pos;
+
+        UdpClient::getInstance()->sendData(msg);
     }
 }
 } // Empyria

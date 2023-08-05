@@ -56,7 +56,10 @@ void GameScene::start()
         {
             BlockStateMessage msg;
             memcpy(&msg, buffer, sizeof(BlockStateMessage));
-            spawnedCube = true;
+            if(msg.add)
+                spawnedCube = true;
+            else
+                deletedCube = true;
             spawnedCubePos = msg.pos;
         }
         else
@@ -65,10 +68,6 @@ void GameScene::start()
             {
                 first = true;
                 spawned = true;
-            }
-            if(buffer[0]=='R')
-            {
-                otherPlayer->getComponent<Transform>()->position.x += (buffer[0] - '0') > 0 ? .05f : -.05f;
             }
         }
     };
@@ -93,6 +92,11 @@ void GameScene::update(float dt)
     {
         spawnedCube = false;
         voxelRaycaster->spawnCubeAtPos(spawnedCubePos);
+    }
+    if(deletedCube)
+    {
+        deletedCube = false;
+        voxelRaycaster->deleteCubeAtPos(spawnedCubePos);
     }
 
     if(InputHandler::onPressMouseButton(GLFW_MOUSE_BUTTON_1))

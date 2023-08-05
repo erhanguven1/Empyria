@@ -27,6 +27,7 @@ public:
 
     void deleteCube();
     void spawnCube();
+    void deleteCubeAtPos(vec3 pos);
     void spawnCubeAtPos(vec3 pos);
     Block* cubeAtTheBottom();
     Block* cubeAtTheRight();
