@@ -4,6 +4,7 @@
 
 #include "Chunk.h"
 #include "Engine/Scene/SceneManager.h"
+#include "Engine/Networking/UdpClient.h"
 
 namespace Empyria
 {
@@ -60,6 +61,12 @@ void Chunk::spawnBlock(vec3 &pos)
         cube->y = getComponent<Transform>()->position.y + y;
         cube->z = getComponent<Transform>()->position.z + z;
         blocks[x][y][z] = cube;
+
+        BlockStateMessage msg;
+        msg.add = true;
+        msg.pos = pos + getComponent<Transform>()->position;
+
+        UdpClient::getInstance()->sendData(msg);
     }
 }
 

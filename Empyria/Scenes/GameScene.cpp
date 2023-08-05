@@ -52,15 +52,24 @@ void GameScene::start()
                 otherPlayer->getComponent<Transform>()->position = receivedPos;
             }
         }
-
-        if(buffer[0]=='S' && !first)
+        else if(n == sizeof(BlockStateMessage))
         {
-            first = true;
-            spawned = true;
+            BlockStateMessage msg;
+            memcpy(&msg, buffer, sizeof(BlockStateMessage));
+            spawnedCube = true;
+            spawnedCubePos = msg.pos;
         }
-        if(buffer[0]=='R')
+        else
         {
-            otherPlayer->getComponent<Transform>()->position.x += (buffer[0] - '0') > 0 ? .05f : -.05f;
+            if(buffer[0]=='S')
+            {
+                first = true;
+                spawned = true;
+            }
+            if(buffer[0]=='R')
+            {
+                otherPlayer->getComponent<Transform>()->position.x += (buffer[0] - '0') > 0 ? .05f : -.05f;
+            }
         }
     };
 
@@ -78,6 +87,12 @@ void GameScene::update(float dt)
         otherPlayer = instantiateGameObject<ModelObject>(3, PrimitiveTypes::Cube);
         otherPlayer->getComponent<Transform>()->position = vec3(5.0f,2.0f,5.0f);
         printf("Spawn second player");
+    }
+
+    if(spawnedCube)
+    {
+        spawnedCube = false;
+        voxelRaycaster->spawnCubeAtPos(spawnedCubePos);
     }
 
     if(InputHandler::onPressMouseButton(GLFW_MOUSE_BUTTON_1))

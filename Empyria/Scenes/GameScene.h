@@ -25,6 +25,8 @@ public:
     void update(float dt) override;
 
     bool spawned = false;
+    bool spawnedCube = false;
+    vec3 spawnedCubePos;
 private:
     Player* player = nullptr;
     ModelObject* otherPlayer = nullptr;

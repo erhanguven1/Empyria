@@ -84,6 +84,11 @@ void VoxelRaycaster::spawnCube()
     chunkManager->chunks[chunkId]->spawnBlock(cubePosOnChunk);
 }
 
+void VoxelRaycaster::spawnCubeAtPos(vec3 pos)
+{
+    chunkManager->chunks[0]->spawnBlock(pos);
+}
+
 Block *VoxelRaycaster::cubeAtTheBottom()
 {
     auto playerPos = Player::getInstance().getComponent<Transform>()->position;

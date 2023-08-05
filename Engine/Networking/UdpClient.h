@@ -27,6 +27,13 @@ class ClientJoinMessage
     char msg[41] = "WHello server, I am the clientest client";
 };
 
+class BlockStateMessage
+{
+public:
+    bool add = true;
+    glm::vec3 pos = glm::vec3(0,0,0);
+};
+
 class UdpClient
 {
 public:

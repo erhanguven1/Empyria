@@ -15,15 +15,6 @@ Player::Player(vec3& spawnPosition, VoxelRaycaster& voxelRaycaster) : ModelObjec
     getComponent<Transform>()->position = spawnPosition;
     addComponent<Rigidbody>(*getComponent<Transform>());
     instance = this;
-
-    std::function receiveDataEvent =[=](char* buffer, int bufSize, int n)
-    {
-        printf("message received\n");
-        if(buffer[0] == 'P')
-            getComponent<Transform>()->position.x += (buffer[0] - '0') > 0 ? .05f : -.05f;
-    };
-
-    UdpClient::getInstance()->registerOnReceiveData(receiveDataEvent);
 }
 
 void Player::update(float dt)
