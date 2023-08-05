@@ -51,7 +51,8 @@ void Scene::update(float dt)
                 j--;
                 continue;
             }
-            go->update(dt);
+            else
+                go->update(dt);
         }
     }
 }

@@ -91,7 +91,6 @@ void UIRenderer::updateRaycastInfo(int& left, int& right, int& top, int& bottom)
 
     if(buttonState.isHovering)
     {
-        std::cout << "It's a success mama!\n";
         if(!buttonState.isClicked)
         {
             buttonState.isClicked = InputHandler::mouseStates[0] == 1;

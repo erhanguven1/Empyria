@@ -6,6 +6,7 @@
 #define EMPYRIA_EMPYRIAENGINE_H
 
 #include <glm/glm.hpp>
+#include "Window.h"
 
 namespace Engine
 {
@@ -26,6 +27,11 @@ public:
     {
         if(screenSize != nullptr)
             screenSize = &ss;
+    }
+
+    inline static void setCursorEnable(bool isEnabled)
+    {
+        Window::setCursorEnable(isEnabled);
     }
 
 private:

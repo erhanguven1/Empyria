@@ -21,14 +21,27 @@ public:
     inline static std::unordered_map<int, int> keyStates;
     inline static std::unordered_map<int, int> mouseStates;
     inline static glm::vec2 mousePosition = glm::vec2(0.0f);
+    inline static glm::vec2 mouseMovement = glm::vec2(0.0f);
     inline static bool isPressingKey(int keycode)
     {
         return keyStates[keycode] == GLFW_REPEAT || keyStates[keycode] == GLFW_PRESS;
     }
     inline static bool onPressKey(int keycode)
     {
-        return keyStates[keycode] == GLFW_PRESS;
+        bool ret = keyStates[keycode] == GLFW_PRESS;
+        if(ret)
+            keyStates[keycode] = GLFW_RELEASE;
+        return ret;
     }
+
+    inline static bool onPressMouseButton(int mousecode)
+    {
+        bool ret = mouseStates[mousecode] == GLFW_PRESS;
+        if(ret)
+            mouseStates[mousecode] = GLFW_RELEASE;
+        return ret;
+    }
+
 private:
     inline static double last_xPos = 0;
     inline static double last_yPos = 0;

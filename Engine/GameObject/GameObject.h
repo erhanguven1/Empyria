@@ -38,12 +38,12 @@ public:
         return weakPtr.lock();
     }
 
-    template<class T>
-    void addComponent()
+    template<class T, typename... Args>
+    void addComponent(Args&&... args)
     {
         string tName = string(typeid(T).name());
         assert("A GameObject can only have 1 of the same component!" && components[tName] == nullptr);
-        components[tName] = make_shared<T>();
+        components[tName] = make_shared<T>(std::forward<Args>(args)...);
     }
 
     inline unsigned int getOrder() const { return order; }

@@ -16,7 +16,6 @@ class SceneManager
 public:
     inline static void addScene(Scene* scene)
     {
-        //scene->sceneId = scenes.size();
         scenes.push_back(scene);
     }
 
@@ -28,6 +27,7 @@ public:
     inline static void setActiveScene(Scene* scene)
     {
         activeScene = scene;
+        activeScene->start();
     }
 
     inline static void loadScene(unsigned int sceneId)

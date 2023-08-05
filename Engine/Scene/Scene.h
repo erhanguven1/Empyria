@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "Engine/GameObject/GameObject.h"
+#include "Engine/GameObject/ModelObject.h"
 #include <map>
 
 namespace Engine

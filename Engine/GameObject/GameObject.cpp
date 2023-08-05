@@ -3,6 +3,7 @@
 //
 
 #include "GameObject.h"
+#include "../Physics/Rigidbody.h"
 
 namespace Engine
 {

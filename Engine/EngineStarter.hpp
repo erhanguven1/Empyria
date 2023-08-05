@@ -13,6 +13,9 @@
 #include "Engine/Shaders/Shaders.h"
 #include "Engine/Scene/SceneManager.h"
 #include "Engine/EmpyriaEngine.h"
+#include "Engine/Networking/UdpClient.h"
+
+bool isRunning = false;
 
 const int width = 1024;
 const int height = 768;
@@ -33,7 +36,7 @@ void startEngine()
 
     InputHandler* inputHandler = new InputHandler();
 
-    glfwSetInputMode(window->getGLFWwindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    EmpyriaEngine::setCursorEnable(true);
 
     // Set the key callback function using a lambda function
     glfwSetKeyCallback(window->getGLFWwindow(), [](GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -59,11 +62,13 @@ void startEngine()
 
     Shaders::uiShaderProgram = LoadShaders( "/Users/erhanguven/CLionProjects/Empyria/Engine/Shaders/DefaultUIShader.vertexshader", "/Users/erhanguven/CLionProjects/Empyria/Engine/Shaders/DefaultUIShader.fragmentshader" );
     Shaders::standardShaderProgram = LoadShaders( "/Users/erhanguven/CLionProjects/Empyria/Engine/Shaders/DefaultShader.vertexshader", "/Users/erhanguven/CLionProjects/Empyria/Engine/Shaders/DefaultShader.fragmentshader" );
+
+    isRunning = true;
 }
 
 void startLoop()
 {
-    const double fpsLimit = 1.0 / 6000.0;
+    const double fpsLimit = 1.0 / 120.0;
     double lastUpdateTime = 0;  // number of seconds since the last loop
     double lastFrameTime = 0;   // number of seconds since the last frame
 
@@ -72,22 +77,28 @@ void startLoop()
         double now = glfwGetTime();
         double deltaTime = now - lastUpdateTime;
 
-        if ((now - lastFrameTime) >= 0)
+        InputHandler::mouseMovement.x = 0;
+        InputHandler::mouseMovement.y = 0;
+
+        glfwWaitEventsTimeout(fpsLimit);
+
+
+        if ((now - lastFrameTime) >= fpsLimit)
         {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             glUseProgram(Shaders::uiShaderProgram);
 
-            SceneManager::getActiveScene()->update(0);
+            SceneManager::getActiveScene()->update(now - lastFrameTime);
 
             glfwSwapBuffers(window->getGLFWwindow());
-            //glfwWaitEvents();
-            //glfwPollEvents();
-            glfwWaitEventsTimeout(0.0007);
             lastFrameTime = now;
         }
 
-        lastFrameTime = now;
+        //lastFrameTime = now;
 
     }
+
+    isRunning = false;
+
 }

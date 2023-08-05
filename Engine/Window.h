@@ -14,11 +14,16 @@ namespace Engine
 
 class Window
 {
+    friend class EmpyriaEngine;
 public:
     bool init(int width, int height, std::string title);
-    inline GLFWwindow* getGLFWwindow(){ return glfwWindow; }
+    inline static GLFWwindow* getGLFWwindow(){ return glfwWindow; }
 private:
-    GLFWwindow* glfwWindow = nullptr;
+    inline static GLFWwindow* glfwWindow = nullptr;
+    inline static void setCursorEnable(bool isEnabled)
+    {
+        glfwSetInputMode(getGLFWwindow(), GLFW_CURSOR, isEnabled ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
+    }
 };
 
 } // Engine

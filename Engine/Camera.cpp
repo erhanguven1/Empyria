@@ -15,12 +15,14 @@ Camera::Camera()
 
 glm::mat4 Camera::getViewMatrix()
 {
-    std::cout << rotation.z << ":";
+    rotation.z = rotation.z >= -1.0f ? -1.0f : rotation.z;
+    rotation.z = rotation.z <= -179.0f ? -179.0f : rotation.z;
 
-    lookDirection.x = cos(glm::radians(rotation.x)) * cos(glm::radians(rotation.y));
-    lookDirection.y = sin(glm::radians(rotation.z));
-    lookDirection.z = cos(glm::radians(rotation.z)) * sin(glm::radians(rotation.y));
+    lookDirection.x = cos(glm::radians(rotation.y)) * sin(glm::radians(rotation.z));
+    lookDirection.y = cos(glm::radians(rotation.z));
+    lookDirection.z = sin(glm::radians(rotation.z)) * sin(glm::radians(rotation.y));
     cameraFront = glm::normalize(lookDirection);
+    right = glm::normalize(glm::cross(cameraFront, upAxis));
     return glm::lookAt(position, position+cameraFront,upAxis);
 }
 

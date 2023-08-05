@@ -14,8 +14,16 @@ void InputHandler::keyEvent(int key, int action)
 
 void InputHandler::cursorPosEvent(double xPos, double yPos)
 {
+
+    mouseMovement.x = xPos - last_xPos;
+    mouseMovement.y = yPos - last_yPos;
+
+    last_xPos = xPos;
+    last_yPos = yPos;
+
     mousePosition.x = xPos;
     mousePosition.y = yPos;
+
 }
 
 void InputHandler::mouseButtonEvent(int button, int action, int mods)
