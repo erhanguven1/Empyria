@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 project(Empyria)
 
 set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_FLAGS -dBUILD_SHARED_LIBS=OFF)
 
 add_library(glad include/glad/src/glad.c)
 
@@ -22,4 +23,7 @@ find_package(glm REQUIRED)
 
 include_directories(${OPENGL_INCLUDE_DIR})
 
-target_link_libraries(Empyria ${OPENGL_LIBRARIES} glad glfw ${ASSIMP_DIR}/bin/libassimp.5.2.5.dylib)
+link_directories(${ASSIMP_DIR}/bin)
+
+target_link_libraries(Empyria ${OPENGL_LIBRARIES} glad glfw)
+target_link_libraries(Empyria ${CMAKE_BINARY_DIR}/libassimp.5.2.5.dylib)

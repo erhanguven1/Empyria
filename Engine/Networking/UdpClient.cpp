@@ -5,6 +5,7 @@
 #include "UdpClient.h"
 #include <future>
 
+#define IP_ADDR "127.0.0.1"
 #define PORT 5000
 #define MAXLINE 1000
 
@@ -20,7 +21,7 @@ void UdpClient::init()
 
     // clear servaddr
     bzero(&servaddr, sizeof(servaddr));
-    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    servaddr.sin_addr.s_addr = inet_addr(IP_ADDR);
     servaddr.sin_port = htons(PORT);
     servaddr.sin_family = AF_INET;
 
@@ -47,7 +48,7 @@ void UdpClient::listenData()
         char buffer[BUFFER_SIZE];
         int n;
         n = recvfrom(sockfd, buffer, sizeof(buffer), 0, (struct sockaddr*)NULL, NULL);
-        printf("Received message: %s\n", buffer);
+        //printf("Received message: %s\n", buffer);
 
         auto t = std::async(&UdpClient::receivedData, this, buffer, BUFFER_SIZE, n);
     }

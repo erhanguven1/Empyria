@@ -29,6 +29,8 @@ void Chunk::createChunk()
                     cube->x = getComponent<Transform>()->position.x + x;
                     cube->y = getComponent<Transform>()->position.y + y;
                     cube->z = getComponent<Transform>()->position.z + z;
+
+                    cube->calculatePlanes();
                 }
 
                 blocks[x][y].push_back(cube);
@@ -61,6 +63,8 @@ void Chunk::spawnBlock(vec3 &pos)
         cube->y = getComponent<Transform>()->position.y + y;
         cube->z = getComponent<Transform>()->position.z + z;
         blocks[x][y][z] = cube;
+
+        cube->calculatePlanes();
 
         BlockStateMessage msg;
         msg.add = true;

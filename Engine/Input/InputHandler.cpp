@@ -23,7 +23,6 @@ void InputHandler::cursorPosEvent(double xPos, double yPos)
 
     mousePosition.x = xPos;
     mousePosition.y = yPos;
-
 }
 
 void InputHandler::mouseButtonEvent(int button, int action, int mods)

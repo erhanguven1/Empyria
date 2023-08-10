@@ -25,6 +25,8 @@ public:
         return *instance;
     }
 
+    inline static string playerName;
+
 private:
     inline static Player* instance;
     Camera& camera;

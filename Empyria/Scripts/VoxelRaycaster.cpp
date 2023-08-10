@@ -5,7 +5,7 @@
 #include "VoxelRaycaster.h"
 #include "../Engine/Camera.h"
 #include "Player.h"
-
+#include <glm/gtx/vector_angle.hpp>
 namespace Empyria
 {
 
@@ -15,7 +15,7 @@ namespace VoxelConstantValues
     constexpr unsigned int collisionRaycastStepSize = 1;
 }
 
-Block *VoxelRaycaster::raycast(vec3* cubeListPosition, unsigned int* chunkId, bool isCameraRaycast, vec3 direction)
+Block *VoxelRaycaster::raycast(vec3* cubeListPosition, unsigned int* chunkId, bool isCameraRaycast, vec3 direction, vec3* hitDirection)
 {
     auto& cam = Camera::getInstance();
     int stepCount = isCameraRaycast ? VoxelConstantValues::cameraRaycastStepSize : VoxelConstantValues::collisionRaycastStepSize;
@@ -23,11 +23,15 @@ Block *VoxelRaycaster::raycast(vec3* cubeListPosition, unsigned int* chunkId, bo
     vec3 lookDirection = isCameraRaycast ? cam.lookDirection : direction;
     vec3 pos = isCameraRaycast ? cam.position : (Player::getInstance().getComponent<Transform>()->position + vec3(0,1.01f,0));
 
-    for(float step = 0; step < stepCount; step+=1)
+    for(float step = 0; step < 10; step+=1) {
+        glm::vec3 currentPos = (
+                pos + lookDirection * ((1.0f * step) / (1.0f * 10)) * (1.0f * 10));
+        raycastObjects[step]->getComponent<Transform>()->position = currentPos;
+    }
+
+    for(float step = 0; step < stepCount; step+=0.1f)
     {
         glm::vec3 currentPos = glm::round(pos + lookDirection * ((1.0f * step) / (1.0f * stepCount)) * (1.0f*stepCount));
-        raycastObjects[step]->getComponent<Transform>()->position = currentPos;
-        //std::cout << "Step: " << to_string(step) + " ---> " << currentPos.x << ", " << currentPos.y << ", " << currentPos.z << "\n";
 
         *chunkId = 0;
 
@@ -48,6 +52,14 @@ Block *VoxelRaycaster::raycast(vec3* cubeListPosition, unsigned int* chunkId, bo
                         cubeListPosition->x = currentPos.x;
                         cubeListPosition->y = currentPos.y;
                         cubeListPosition->z = currentPos.z;
+
+                        if(hitDirection != nullptr)
+                        {
+                            vec3 rayVec = glm::normalize(lookDirection);
+
+                            auto hitFaceDir = (block->f2(rayVec, cam.position));
+                            *hitDirection = hitFaceDir;
+                        }
 
                         return block;
                     }
@@ -77,9 +89,10 @@ void VoxelRaycaster::spawnCube()
 {
     vec3 cubePosOnChunk;
     unsigned int chunkId = -1;
+    vec3 hitDirection = vec3(0,0,1);
 
-    raycast(&cubePosOnChunk, &chunkId);
-    cubePosOnChunk.x -= 1;
+    raycast(&cubePosOnChunk, &chunkId, true,vec3(0,-1,0), &hitDirection);
+    cubePosOnChunk += hitDirection;
 
     chunkManager->chunks[chunkId]->spawnBlock(cubePosOnChunk);
 }

@@ -5,6 +5,7 @@
 #include "GameScene.h"
 #include "Engine/Input/InputHandler.h"
 #include <map>
+#include <glm/ext/matrix_projection.hpp>
 #include "Engine/UI/UIObject.h"
 #include "Engine/Physics/Rigidbody.h"
 #include "Engine/Networking/UdpClient.h"
@@ -103,6 +104,19 @@ void GameScene::update(float dt)
     {
         voxelRaycaster->deleteCube();
     }
+
+    auto view = Camera::getInstance().getViewMatrix();
+    auto projection = Camera::getInstance().getProjectionMatrix();
+
+    double xPos = InputHandler::mousePosition.x;
+    double yPos = InputHandler::mousePosition.y;
+
+    glm::vec4 viewport = glm::vec4(0, 0, 1024, 768);
+    glm::vec3 wincoord = glm::vec3(xPos, 768 - yPos - 1, 1.9f);
+    glm::vec3 objcoord = glm::unProject(wincoord, view, projection, viewport);
+
+    //printf("Coordinates: %0.2f, %0.2f, %0.2f\n",
+           //objcoord.x, objcoord.y, objcoord.z);
 
     if(InputHandler::onPressMouseButton(GLFW_MOUSE_BUTTON_2))
     {

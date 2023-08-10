@@ -20,7 +20,7 @@ public:
         for(int i = 0; i < 10; i++)
         {
             raycastObjects.push_back(SceneManager::getActiveScene()->instantiateGameObject<ModelObject>(1, PrimitiveTypes::Cube,""));
-            raycastObjects.back()->getComponent<Transform>()->scale = vec3(.01f);
+            raycastObjects.back()->getComponent<Transform>()->scale = vec3(0.1f);
         }
     }
     ChunkManager* chunkManager = nullptr;
@@ -30,13 +30,11 @@ public:
     void deleteCubeAtPos(vec3 pos);
     void spawnCubeAtPos(vec3 pos);
     Block* cubeAtTheBottom();
-    Block* cubeAtTheRight();
-    Block* cubeAtTheLeft();
 
     vector<Block*> blocksAroundPoint(vec3 point);
 
 private:
-    Block* raycast(vec3* cubeListPosition, unsigned int* chunkId, bool isCameraRaycast = true, vec3 direction = vec3(0,-1,0));
+    Block* raycast(vec3* cubeListPosition, unsigned int* chunkId, bool isCameraRaycast = true, vec3 direction = vec3(0,-1,0), vec3* hitDirection = nullptr);
     vector<ModelObject*> raycastObjects;
 };
 

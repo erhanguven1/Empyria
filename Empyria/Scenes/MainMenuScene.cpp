@@ -5,12 +5,16 @@
 #include "MainMenuScene.h"
 #include "Engine/Scene/SceneManager.h"
 #include "Engine/Input/InputHandler.h"
+#include "../Scripts/Player.h"
+#include "Engine/Networking/UdpClient.h"
 
 namespace Empyria
 {
 MainMenuScene::MainMenuScene() : Scene()
 {
     SceneManager::setActiveScene(this);
+
+    Player::playerName = "Player_" + to_string(rand() % 1000);
 
     background = instantiateGameObject<UIObject>(1, "Menu/bg.jpeg");
     background->getComponent<RectTransform>()->scale.x = 2.0f;

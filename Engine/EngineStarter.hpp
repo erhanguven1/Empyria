@@ -29,7 +29,7 @@ bool closeWindow = false;
 void startEngine()
 {
     window = new Window();
-    window->init(width, height, "Empyria");
+    window->init(width, height, "MinecraftClone");
 
     vec2* v = new vec2(width, height);
     EmpyriaEngine::setScreenSize(*v);

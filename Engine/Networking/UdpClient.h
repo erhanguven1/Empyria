@@ -34,6 +34,12 @@ public:
     glm::vec3 pos = glm::vec3(0,0,0);
 };
 
+class ChatMessage
+{
+    char sender[16];
+    char msg[64];
+};
+
 class UdpClient
 {
 public:
