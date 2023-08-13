@@ -62,6 +62,7 @@ void startEngine()
 
     Shaders::uiShaderProgram = LoadShaders( "/Users/erhanguven/CLionProjects/Empyria/Engine/Shaders/DefaultUIShader.vertexshader", "/Users/erhanguven/CLionProjects/Empyria/Engine/Shaders/DefaultUIShader.fragmentshader" );
     Shaders::standardShaderProgram = LoadShaders( "/Users/erhanguven/CLionProjects/Empyria/Engine/Shaders/DefaultShader.vertexshader", "/Users/erhanguven/CLionProjects/Empyria/Engine/Shaders/DefaultShader.fragmentshader" );
+    Shaders::textShaderProgram = LoadShaders( "/Users/erhanguven/CLionProjects/Empyria/Engine/Shaders/DefaultTextShader.vertexshader", "/Users/erhanguven/CLionProjects/Empyria/Engine/Shaders/DefaultTextShader.fragmentshader" );
 
     isRunning = true;
 }

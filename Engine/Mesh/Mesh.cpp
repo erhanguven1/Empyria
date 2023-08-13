@@ -74,6 +74,19 @@ void Mesh::initUIMesh(const GLfloat *vertex_buffer_data, const size_t size, cons
 
 }
 
+void Mesh::initTextMesh()
+{
+    glGenVertexArrays(1, &vao);
+    glGenBuffers(1, &vertexBuffer);
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
+
 void Mesh::initMesh(const GLfloat *vertex_buffer_data, const GLuint *indices, const size_t vertexBufferSize, const size_t indicesSize, std::string& path)
 {
     glGenVertexArrays(1, &vao);

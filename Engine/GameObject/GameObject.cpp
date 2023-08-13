@@ -22,6 +22,10 @@ void GameObject::update(float dt)
             {
                 static_pointer_cast<MeshRenderer>(comp.second)->render(*getComponent<Transform>());
             }
+            else if(comp.first == string(typeid(TextRenderer).name()))
+            {
+                static_pointer_cast<TextRenderer>(comp.second)->render(*getComponent<RectTransform>());
+            }
         }
     }
 }

@@ -12,6 +12,7 @@
 #include "Transform.h"
 #include "Engine/UI/RectTransform.h"
 #include "Engine/UI/UIRenderer.h"
+#include "Engine/Text/TextRenderer.h"
 
 #include <string>
 

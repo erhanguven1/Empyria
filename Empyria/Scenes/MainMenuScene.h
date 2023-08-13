@@ -9,6 +9,7 @@
 #include "Engine/Scene/Scene.h"
 #include "Engine/UI/UIObject.h"
 #include "Engine/GameObject/ModelObject.h"
+#include "Engine/Text/TextObject.h"
 
 using namespace Engine;
 
@@ -26,6 +27,8 @@ private:
     UIObject* background = nullptr;
     UIObject* playButton = nullptr;
     UIObject* exitButton = nullptr;
+    TextObject* textTest = nullptr;
+    TextObject* textTest2 = nullptr;
 };
 
 } // Empyria
