@@ -9,6 +9,7 @@
 #include "Engine/Scene/Scene.h"
 #include "../Scripts/VoxelRaycaster.h"
 #include "../Scripts/Player.h"
+#include "Empyria/Scripts/PlayerListView.h"
 
 using namespace Engine;
 
@@ -33,6 +34,7 @@ private:
     ModelObject* otherPlayer = nullptr;
     GameObject* car = nullptr;
     VoxelRaycaster* voxelRaycaster;
+    PlayerListView* playerListView = nullptr;
     bool first = false;
     bool isChatActive = false;
 };

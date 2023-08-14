@@ -51,6 +51,11 @@ void GameScene::start()
     player = instantiateGameObject<Player>(1, spawnPos, *voxelRaycaster);
     player->getComponent<Transform>()->scale = vec3(0.01f);
 
+    playerListView = instantiateGameObject<PlayerListView>(1);
+    playerListView->addPlayer(Player::playerName);
+    playerListView->getComponent<RectTransform>()->scale = vec2(.5f,1.0f);
+    playerListView->getComponent<RectTransform>()->position = vec2(-750,0);
+
     auto pos = vec3(0.0f,0,0.0f);
     Chunk* c1 = instantiateGameObject<Chunk>(1,pos);
     c1->createChunk();
@@ -100,6 +105,7 @@ void GameScene::update(float dt)
         spawned = false;
         otherPlayer = instantiateGameObject<ModelObject>(3, PrimitiveTypes::Cube);
         otherPlayer->getComponent<Transform>()->position = vec3(5.0f,2.0f,5.0f);
+        playerListView->addPlayer(Player::playerName);
         printf("Spawn second player");
     }
 
