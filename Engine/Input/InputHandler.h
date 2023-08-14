@@ -6,6 +6,7 @@
 #define EMPYRIA_INPUTHANDLER_H
 
 #include <unordered_map>
+#include "Engine/UI/InputField.h"
 #include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
 
@@ -30,7 +31,9 @@ public:
     {
         bool ret = keyStates[keycode] == GLFW_PRESS;
         if(ret)
+        {
             keyStates[keycode] = GLFW_RELEASE;
+        }
         return ret;
     }
 

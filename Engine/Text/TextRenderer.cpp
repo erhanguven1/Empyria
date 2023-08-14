@@ -5,8 +5,10 @@
 #include "TextRenderer.h"
 #include "glad/glad.h"
 #include "Engine/Shaders/Shaders.h"
+#include "Engine/Camera.h"
 #include <iostream>
 #include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
 namespace Engine
 {
@@ -84,7 +86,7 @@ void TextRenderer::init(const Font &font, std::string text)
     mesh = new Mesh();
     mesh->initTextMesh();
 
-    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
+    glm::mat4 projection = glm::ortho(0.0f, 1024.0f, 0.0f, 768.0f);
     glUseProgram(Shaders::textShaderProgram);
     glUniformMatrix4fv(glGetUniformLocation(Shaders::textShaderProgram, "projection"), 1, GL_FALSE, &projection[0][0]);
 }
@@ -101,32 +103,53 @@ void TextRenderer::update(float dt)
 
 void TextRenderer::render(Engine::RectTransform &rectTransform)
 {
-    float x = rectTransform.position.x;
-    float y = rectTransform.position.y;
+    float x = 400.0f*rectTransform.position.x/1024.0f + 256*1.55 - text.length() * 12.5f;
+    float y = 370 + rectTransform.position.y * .5f;
 
-    float scale = 2.5f;
+    float scaleX = rectTransform.scale.x;
+    float scaleY = rectTransform.scale.y;
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glm::vec3 color = vec3(1,1,1);
-    // activate corresponding render state
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    glOrtho(0.0, 1024, 768, 0.0, -1.0, -10.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glDisable(GL_CULL_FACE);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    glm::vec3 color = vec3(0,0,0);
     glUseProgram(Shaders::textShaderProgram);
     glUniform3f(glGetUniformLocation(Shaders::textShaderProgram, "textColor"), color.x, color.y, color.z);
+
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(mesh->vao);
 
     // iterate through all characters
     std::string::const_iterator c;
+
+    float ww = 0;
+
+    for (c = text.begin(); c != text.end(); c++)
+    {
+        Character ch = characters[*c];
+        ww += (ch.Size.x) * scaleX / 2.0f + ch.Bearing.x / 2.0f;
+    }
+
+    x = rectTransform.position.x/2.0f + 768/1.5f - ww;
+
     for (c = text.begin(); c != text.end(); c++)
     {
         Character ch = characters[*c];
 
-        float xpos = x + ch.Bearing.x * scale;
-        float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
+        float xpos = x + ch.Bearing.x * scaleX;
+        float ypos = y - (ch.Size.y - ch.Bearing.y) * scaleY;
 
-        float w = ch.Size.x * scale;
-        float h = ch.Size.y * scale;
+        float w = ch.Size.x * scaleX;
+        float h = ch.Size.y * scaleY;
         // update VBO for each character
         float vertices[6][4] = {
                 { xpos,     ypos + h,   0.0f, 0.0f },
@@ -146,7 +169,7 @@ void TextRenderer::render(Engine::RectTransform &rectTransform)
         // render quad
         glDrawArrays(GL_TRIANGLES, 0, 6);
         // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-        x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64)
+        x += (ch.Advance >> 6) * scaleX; // bitshift by 6 to get value in pixels (2^6 = 64)
     }
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);

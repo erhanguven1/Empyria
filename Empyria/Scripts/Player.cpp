@@ -6,6 +6,7 @@
 #include "../Engine/Input/InputHandler.h"
 #include "../Engine/Physics/Rigidbody.h"
 #include "Engine/Networking/UdpClient.h"
+#include "ChatManager.h"
 
 namespace Empyria
 {
@@ -42,26 +43,6 @@ void Player::update(float dt)
         }
     }
 
-
-
-    if ((InputHandler::keyStates[GLFW_KEY_A] == GLFW_REPEAT || InputHandler::keyStates[GLFW_KEY_A] == GLFW_PRESS))
-        deltaPos -= camRight*0.05f;
-
-    if ((InputHandler::keyStates[GLFW_KEY_D] == GLFW_REPEAT || InputHandler::keyStates[GLFW_KEY_D] == GLFW_PRESS))
-        deltaPos += camRight*0.05f;
-
-    if (InputHandler::keyStates[GLFW_KEY_W] == GLFW_REPEAT || InputHandler::keyStates[GLFW_KEY_W] == GLFW_PRESS)
-        deltaPos += camLook*0.05f;
-
-    if (InputHandler::keyStates[GLFW_KEY_S] == GLFW_REPEAT || InputHandler::keyStates[GLFW_KEY_S] == GLFW_PRESS)
-        deltaPos += -camLook*0.05f;
-
-    if(InputHandler::onPressKey(GLFW_KEY_SPACE))
-    {
-        getComponent<Rigidbody>()->velocity->y = .075f;
-        getComponent<Rigidbody>()->isGrounded = false;
-    }
-
     auto blocksAroundPlayer = m_voxelRaycaster.blocksAroundPoint(getComponent<Transform>()->position);
 
     if(blocksAroundPlayer[0] != nullptr)
@@ -88,8 +69,30 @@ void Player::update(float dt)
             deltaPos.x = 0.0f;
     }
 
-    transform->position+=deltaPos;
+    if(!ChatManager::getIsChatActive())
+    {
+        if ((InputHandler::keyStates[GLFW_KEY_A] == GLFW_REPEAT || InputHandler::keyStates[GLFW_KEY_A] == GLFW_PRESS))
+            deltaPos -= camRight*0.05f;
 
-    camera.position = transform->position + vec3(0,1.25f,0);
+        if ((InputHandler::keyStates[GLFW_KEY_D] == GLFW_REPEAT || InputHandler::keyStates[GLFW_KEY_D] == GLFW_PRESS))
+            deltaPos += camRight*0.05f;
+
+        if (InputHandler::keyStates[GLFW_KEY_W] == GLFW_REPEAT || InputHandler::keyStates[GLFW_KEY_W] == GLFW_PRESS)
+            deltaPos += camLook*0.05f;
+
+        if (InputHandler::keyStates[GLFW_KEY_S] == GLFW_REPEAT || InputHandler::keyStates[GLFW_KEY_S] == GLFW_PRESS)
+            deltaPos += -camLook*0.05f;
+
+        if(InputHandler::onPressKey(GLFW_KEY_SPACE))
+        {
+            getComponent<Rigidbody>()->velocity->y = .075f;
+            getComponent<Rigidbody>()->isGrounded = false;
+        }
+
+        transform->position+=deltaPos;
+
+        camera.position = transform->position + vec3(0,1.25f,0);
+    }
+
 }
 } // Empyria

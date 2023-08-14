@@ -60,7 +60,7 @@ void UIRenderer::render(RectTransform& rectTransform)
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    glOrtho(0.0, 1024, 768, 0.0, -1.0, -10.0);
+    glOrtho(0.0, 1024, 768, 0.0, -1.0, -5.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glDisable(GL_CULL_FACE);

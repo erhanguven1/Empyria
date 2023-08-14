@@ -9,6 +9,14 @@ namespace Engine
 {
 void InputHandler::keyEvent(int key, int action)
 {
+    if(action == GLFW_PRESS)
+    {
+        unsigned char k = key;
+        if(key >= 65 && key <= 90)
+            k = key + 32;
+
+        InputField::handleInputOnSelectedInputField(k);
+    }
     keyStates[key] = action;
 }
 

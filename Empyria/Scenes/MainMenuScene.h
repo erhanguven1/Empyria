@@ -10,6 +10,7 @@
 #include "Engine/UI/UIObject.h"
 #include "Engine/GameObject/ModelObject.h"
 #include "Engine/Text/TextObject.h"
+#include "Engine/UI/InputField.h"
 
 using namespace Engine;
 
@@ -27,8 +28,7 @@ private:
     UIObject* background = nullptr;
     UIObject* playButton = nullptr;
     UIObject* exitButton = nullptr;
-    TextObject* textTest = nullptr;
-    TextObject* textTest2 = nullptr;
+    InputField* usernameInputField = nullptr;
 };
 
 } // Empyria

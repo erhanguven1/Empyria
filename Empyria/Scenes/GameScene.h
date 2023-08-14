@@ -34,6 +34,7 @@ private:
     GameObject* car = nullptr;
     VoxelRaycaster* voxelRaycaster;
     bool first = false;
+    bool isChatActive = false;
 };
 
 } // Empyria

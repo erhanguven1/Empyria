@@ -35,7 +35,10 @@ public:
     void start() override;
     void update(float dt) override;
     void render(RectTransform& rectTransform);
-
+    inline void setText(const char* t)
+    {
+        text = t;
+    }
 private:
     std::unordered_map<Font, const char*> fontNames
             {

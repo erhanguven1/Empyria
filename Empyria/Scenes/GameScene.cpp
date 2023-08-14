@@ -9,6 +9,8 @@
 #include "Engine/UI/UIObject.h"
 #include "Engine/Physics/Rigidbody.h"
 #include "Engine/Networking/UdpClient.h"
+#include "Engine/Text/TextObject.h"
+#include "../Scripts/ChatManager.h"
 
 
 namespace Empyria
@@ -22,20 +24,32 @@ void GameScene::start()
 {
     Scene::start();
 
-    EmpyriaEngine::setCursorEnable(false);
+    auto* messageInputField = instantiateGameObject<InputField>(3);
+    messageInputField->getComponent<RectTransform>()->position = vec2(-486,-612);
+    messageInputField->getComponent<RectTransform>()->scale.x = 1.0f;
+    messageInputField->getTextObject()->setText("usernamee");
+
+    string k = "Joined as: " + Player::playerName;
+
+    auto* joinedInfoText = instantiateGameObject<TextObject>(4,k.c_str(),Font::arial);
+    joinedInfoText->getComponent<RectTransform>()->position = vec2(0,612);
+    vec2 scale = vec2(.5f);
+    joinedInfoText->getComponent<RectTransform>()->scale = scale;
 
     auto cursor = instantiateGameObject<UIObject>(1, "");
     cursor->getComponent<RectTransform>()->scale = vec2(.025f);
 
+    ChatManager::setIsChatActive(false);
 
     ChunkManager* chunkManager = new ChunkManager;
+
     voxelRaycaster = new VoxelRaycaster;
 
-    vec3 spawnPos = vec3(5.0f,4.0f,5.0f);
-    player = instantiateGameObject<Player>(3, spawnPos, *voxelRaycaster);
-    player->getComponent<Transform>()->scale = vec3(0.01f);
-
     voxelRaycaster->chunkManager = chunkManager;
+
+    vec3 spawnPos = vec3(5.0f,4.0f,5.0f);
+    player = instantiateGameObject<Player>(1, spawnPos, *voxelRaycaster);
+    player->getComponent<Transform>()->scale = vec3(0.01f);
 
     auto pos = vec3(0.0f,0,0.0f);
     Chunk* c1 = instantiateGameObject<Chunk>(1,pos);
@@ -100,23 +114,18 @@ void GameScene::update(float dt)
         voxelRaycaster->deleteCubeAtPos(spawnedCubePos);
     }
 
+    if(InputHandler::onPressKey(GLFW_KEY_L))
+    {
+        ChatManager::setIsChatActive(!ChatManager::getIsChatActive());
+    }
+
+    if(ChatManager::getIsChatActive())
+        return;
+
     if(InputHandler::onPressMouseButton(GLFW_MOUSE_BUTTON_1))
     {
         voxelRaycaster->deleteCube();
     }
-
-    auto view = Camera::getInstance().getViewMatrix();
-    auto projection = Camera::getInstance().getProjectionMatrix();
-
-    double xPos = InputHandler::mousePosition.x;
-    double yPos = InputHandler::mousePosition.y;
-
-    glm::vec4 viewport = glm::vec4(0, 0, 1024, 768);
-    glm::vec3 wincoord = glm::vec3(xPos, 768 - yPos - 1, 1.9f);
-    glm::vec3 objcoord = glm::unProject(wincoord, view, projection, viewport);
-
-    //printf("Coordinates: %0.2f, %0.2f, %0.2f\n",
-           //objcoord.x, objcoord.y, objcoord.z);
 
     if(InputHandler::onPressMouseButton(GLFW_MOUSE_BUTTON_2))
     {

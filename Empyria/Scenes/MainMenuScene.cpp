@@ -6,7 +6,6 @@
 #include "Engine/Scene/SceneManager.h"
 #include "Engine/Input/InputHandler.h"
 #include "../Scripts/Player.h"
-#include "Engine/Networking/UdpClient.h"
 
 namespace Empyria
 {
@@ -16,14 +15,10 @@ MainMenuScene::MainMenuScene() : Scene()
 
     Player::playerName = "Player_" + to_string(rand() % 1000);
 
-    const char* k = "erhan";
-
-    textTest = instantiateGameObject<TextObject>(2,k,Font::arial);
-    textTest->getComponent<RectTransform>()->position = vec2(386,386);
-
-    k="nur";
-
-    textTest2 = instantiateGameObject<TextObject>(2,k,Font::arial);
+    usernameInputField = instantiateGameObject<InputField>(3);
+    usernameInputField->getComponent<RectTransform>()->position.x = 0;
+    usernameInputField->getComponent<RectTransform>()->position.y = 300;
+    usernameInputField->getTextObject()->setText("username");
 
     background = instantiateGameObject<UIObject>(1, "Menu/bg.jpeg");
     background->getComponent<RectTransform>()->scale.x = 2.0f;
@@ -39,8 +34,9 @@ MainMenuScene::MainMenuScene() : Scene()
     exitButton->getComponent<RectTransform>()->scale.x = 0.5 * 0.75f;
     exitButton->getComponent<RectTransform>()->scale.y *= 0.25f * 0.75f;
 
-    playButton->getComponent<UIRenderer>()->getButtonState().onRelease = []()
+    playButton->getComponent<UIRenderer>()->getButtonState().onRelease = [&]()
     {
+        Player::playerName = usernameInputField->getTextObject()->getText();
         SceneManager::loadScene(1);
     };
 }
@@ -48,11 +44,6 @@ MainMenuScene::MainMenuScene() : Scene()
 void MainMenuScene::update(float dt)
 {
     Scene::update(dt);
-    textTest->getComponent<RectTransform>()->position.x -= 0.1f;
-    textTest->getComponent<RectTransform>()->position.y -= 0.1f;
-
-    textTest2->getComponent<RectTransform>()->position.x += 0.1f;
-    textTest2->getComponent<RectTransform>()->position.y += 0.1f;
 
     if(playButton->getComponent<UIRenderer>()->getButtonState().getIsHovering())
         playButton->getComponent<RectTransform>()->scale = vec2(0.5f*1.05f,0.25f*1.05f);
@@ -63,5 +54,11 @@ void MainMenuScene::update(float dt)
         exitButton->getComponent<RectTransform>()->scale = vec2(0.5f,0.25f);
     else
         exitButton->getComponent<RectTransform>()->scale = vec2(0.5f * 0.925f,0.25f * 0.925f);
+
+    if(InputHandler::isPressingKey(GLFW_KEY_UP))
+    {
+        usernameInputField->getComponent<RectTransform>()->position.x += .5f;
+        usernameInputField->getComponent<RectTransform>()->position.y += .5f;
+    }
 }
 } // Empyria
