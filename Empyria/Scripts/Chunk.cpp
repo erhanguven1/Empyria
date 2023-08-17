@@ -74,7 +74,7 @@ void Chunk::spawnBlock(vec3 &pos)
     }
 }
 
-void Chunk::deleteBlock(vec3 &pos)
+void Chunk::deleteBlock(vec3 &pos, bool fromRemote)
 {
     if(this == nullptr)
         return;
@@ -88,9 +88,15 @@ void Chunk::deleteBlock(vec3 &pos)
         blocks[x][y][z]->destroy();
         blocks[x][y][z] = nullptr;
 
+        if(fromRemote)
+            return;
+
         BlockStateMessage msg;
+        msg.a = false;
         msg.add = false;
         msg.pos = pos;
+
+        printf("\nx=%f y=%f z=%f\n",msg.pos.x,msg.pos.y,msg.pos.z);
 
         UdpClient::getInstance()->sendData(msg);
     }

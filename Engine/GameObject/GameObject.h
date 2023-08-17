@@ -48,7 +48,10 @@ public:
     }
 
     inline unsigned int getOrder() const { return order; }
-    inline void setOrder(unsigned int _order) { order = _order; }
+    virtual void setOrder(unsigned int _order)
+    {
+        order = _order;
+    }
 
     void destroy()
     {
@@ -59,13 +62,14 @@ public:
 
 private:
     unordered_map<string, shared_ptr<Component>> components;
-    unsigned int order = 0;
     void deleteGameObject()
     {
         delete this;
     }
 
 protected:
+    unsigned int order = 1;
+
     virtual ~GameObject()
     {
 

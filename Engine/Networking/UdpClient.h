@@ -22,20 +22,30 @@
 namespace Engine
 {
 
-class ClientJoinMessage
+struct QueuedMessage
+{
+    char * buffer;
+    int bufferSize;
+    int n;
+};
+
+struct ClientJoinMessage
 {
     char msg[41] = "WHello server, I am the clientest client";
+    char playerName[15] = "";
 };
 
 class BlockStateMessage
 {
 public:
+    bool a = false;
     bool add = true;
-    glm::vec3 pos = glm::vec3(0,0,0);
+    glm::ivec3 pos = glm::ivec3(0,0,0);
 };
 
 class ChatMessage
 {
+public:
     char sender[16];
     char msg[64];
 };
@@ -63,6 +73,8 @@ public:
 
     void listenData();
 
+    void update();
+
     void closeSocket();
 
 
@@ -73,6 +85,7 @@ public:
 
 private:
     std::vector<std::function<void(char[], int, int)>> onReceiveDataEvents;
+    std::vector<QueuedMessage> queuedMessages;
 
     void receivedData(char[], int, int);
 

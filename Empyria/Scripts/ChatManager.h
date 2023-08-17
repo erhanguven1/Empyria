@@ -5,6 +5,7 @@
 #ifndef EMPYRIA_CHATMANAGER_H
 #define EMPYRIA_CHATMANAGER_H
 
+#define INCLUDE_ENGINE
 #include "Engine/EmpyriaEngine.h"
 
 namespace Empyria

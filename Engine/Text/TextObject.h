@@ -49,7 +49,7 @@ protected:
 
     }
 private:
-    string text = "";
+    string text = "asd";
 };
 
 } // Engine

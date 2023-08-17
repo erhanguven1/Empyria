@@ -10,6 +10,8 @@
 #include "../Scripts/VoxelRaycaster.h"
 #include "../Scripts/Player.h"
 #include "Empyria/Scripts/PlayerListView.h"
+#include "Engine/Networking/UdpClient.h"
+#include "../Scripts/ChatView.h"
 
 using namespace Engine;
 
@@ -35,8 +37,8 @@ private:
     GameObject* car = nullptr;
     VoxelRaycaster* voxelRaycaster;
     PlayerListView* playerListView = nullptr;
-    bool first = false;
-    bool isChatActive = false;
+    ChatView* chatView = nullptr;
+    void spawnSecondPlayer(ClientJoinMessage& msg);
 };
 
 } // Empyria

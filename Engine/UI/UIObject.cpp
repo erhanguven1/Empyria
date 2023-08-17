@@ -8,6 +8,7 @@ namespace Engine
 {
 UIObject::UIObject(string imagePath, bool isButton)
 {
+    setOrder(getOrder()+1000);
     addComponent<RectTransform>();
     addComponent<UIRenderer>();
     if(auto uiRenderer = getComponent<UIRenderer>())

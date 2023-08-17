@@ -21,7 +21,7 @@ public:
     }
     void createChunk();
     void spawnBlock(vec3& pos);
-    void deleteBlock(vec3& pos);
+    void deleteBlock(vec3& pos, bool fromRemote = false);
 
     std::vector<std::vector<std::vector<Block*>>> blocks;
 };

@@ -33,7 +33,7 @@ void Player::update(float dt)
 
     auto deltaPos = vec3(0,0,0);
 
-    //if ((InputHandler::keyStates[GLFW_KEY_Q] == GLFW_REPEAT || InputHandler::keyStates[GLFW_KEY_Q] == GLFW_PRESS))
+    if ((InputHandler::keyStates[GLFW_KEY_Q] == GLFW_REPEAT || InputHandler::keyStates[GLFW_KEY_Q] == GLFW_PRESS))
     {
         if(UdpClient::getInstance() != nullptr)
         {

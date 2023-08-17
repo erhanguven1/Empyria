@@ -5,6 +5,32 @@
 #ifndef EMPYRIA_EMPYRIAENGINE_H
 #define EMPYRIA_EMPYRIAENGINE_H
 
+#ifdef EMPYRIA_interface
+#include "Engine/UI/RectTransform.h"
+#include "Engine/UI/InputField.h"
+#include "Engine/UI/UIObject.h"
+#include "Engine/UI/UIRenderer.h"
+#include "Engine/Text/TextObject.h"
+#include "Engine/Text/TextRenderer.h"
+#endif
+
+#ifndef EMPYRIA_interface
+#ifdef INCLUDE_TEXT
+#include "Engine/Text/TextRenderer.h"
+#include "Engine/Text/TextObject.h"
+#include "Engine/UI/InputField.h"
+#endif
+#endif
+
+#ifndef EMPYRIA_interface
+#ifdef INCLUDE_UI
+#include "Engine/UI/RectTransform.h"
+#include "Engine/UI/UIRenderer.h"
+#include "Engine/UI/UIObject.h"
+#include "Engine/UI/ListView.h"
+#endif
+#endif
+
 #include <glm/glm.hpp>
 #include "Window.h"
 
@@ -15,9 +41,7 @@ namespace Engine
 static T* create() \
 { \
     T *pRet = new T(); \
-} \
-
-
+}                          \
 
 class EmpyriaEngine
 {

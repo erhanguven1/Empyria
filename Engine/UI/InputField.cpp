@@ -33,6 +33,11 @@ void InputField::handleInputOnSelectedInputField(unsigned char &key)
     {
         selectedInputField->textObject->removeFromBack();
     }
+    else if(k == 1) //Enter
+    {
+        for(auto func : selectedInputField->onPressEnter)
+            func();
+    }
 
 }
 } // Engine

@@ -34,6 +34,11 @@ public:
         return textObject;
     }
 
+    inline void registerOnPressEnter(std::function<void()>& func)
+    {
+        onPressEnter.push_back(func);
+    }
+
     inline static void setSelectedInputField(InputField& inputField)
     {
         selectedInputField = &inputField;
@@ -42,6 +47,8 @@ public:
 private:
     TextObject* textObject = nullptr;
     inline static InputField* selectedInputField;
+protected:
+    std::vector<std::function<void()>> onPressEnter;
 };
 
 } // Engine

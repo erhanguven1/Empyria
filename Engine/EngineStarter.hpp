@@ -12,6 +12,7 @@
 #include "Engine/loadShader.hpp"
 #include "Engine/Shaders/Shaders.h"
 #include "Engine/Scene/SceneManager.h"
+#define INCLUDE_ENGINE
 #include "Engine/EmpyriaEngine.h"
 #include "Engine/Networking/UdpClient.h"
 

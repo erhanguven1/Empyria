@@ -99,7 +99,7 @@ void VoxelRaycaster::spawnCube()
 
 void VoxelRaycaster::deleteCubeAtPos(vec3 pos)
 {
-    chunkManager->chunks[0]->deleteBlock(pos);
+    chunkManager->chunks[0]->deleteBlock(pos, true);
 }
 
 

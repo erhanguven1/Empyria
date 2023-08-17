@@ -9,27 +9,18 @@
 #include "Engine/Text/TextObject.h"
 #include "Engine/Scene/SceneManager.h"
 #include "Engine/UI/UIObject.h"
+#include "Engine/UI/ListView.h"
 
 namespace Empyria
 {
 
-class PlayerListView : public Engine::UIObject
+class PlayerListView : public Engine::ListView
 {
 public:
-    PlayerListView() : Engine::UIObject("")
+    PlayerListView() : Engine::ListView(vec2(500,0),256,384,75,15,30)
     {
 
     }
-
-    void addPlayer(const std::string& playerName)
-    {
-        auto* t = Engine::SceneManager::getActiveScene()->instantiateGameObject<Engine::TextObject>(5,playerName.c_str());
-        players.push_back(t);
-    }
-
-    void update(float dt) override;
-private:
-    std::vector<Engine::TextObject*> players;
 };
 
 } // Empyria

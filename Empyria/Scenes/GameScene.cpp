@@ -5,11 +5,6 @@
 #include "GameScene.h"
 #include "Engine/Input/InputHandler.h"
 #include <map>
-#include <glm/ext/matrix_projection.hpp>
-#include "Engine/UI/UIObject.h"
-#include "Engine/Physics/Rigidbody.h"
-#include "Engine/Networking/UdpClient.h"
-#include "Engine/Text/TextObject.h"
 #include "../Scripts/ChatManager.h"
 
 
@@ -24,10 +19,23 @@ void GameScene::start()
 {
     Scene::start();
 
+    ClientJoinMessage joinMessage;
+    strcpy(joinMessage.playerName, Player::playerName.c_str());
+    UdpClient::getInstance()->sendData(joinMessage);
+
     auto* messageInputField = instantiateGameObject<InputField>(3);
     messageInputField->getComponent<RectTransform>()->position = vec2(-486,-612);
     messageInputField->getComponent<RectTransform>()->scale.x = 1.0f;
-    messageInputField->getTextObject()->setText("usernamee");
+    messageInputField->getTextObject()->setText("your message");
+
+    std::function messageInput_onPressEnter = [messageInputField](){
+        ChatMessage chatMsg;
+        strcpy(chatMsg.sender, Player::playerName.c_str());
+        strcpy(chatMsg.msg, messageInputField->getTextObject()->getText().c_str());
+        UdpClient::getInstance()->sendData(chatMsg);
+    };
+
+    messageInputField->registerOnPressEnter(messageInput_onPressEnter);
 
     string k = "Joined as: " + Player::playerName;
 
@@ -52,16 +60,16 @@ void GameScene::start()
     player->getComponent<Transform>()->scale = vec3(0.01f);
 
     playerListView = instantiateGameObject<PlayerListView>(1);
-    playerListView->addPlayer(Player::playerName);
-    playerListView->getComponent<RectTransform>()->scale = vec2(.5f,1.0f);
-    playerListView->getComponent<RectTransform>()->position = vec2(-750,0);
+    playerListView->addElement(Player::playerName.c_str());
+
+    chatView = instantiateGameObject<ChatView>(1);
 
     auto pos = vec3(0.0f,0,0.0f);
     Chunk* c1 = instantiateGameObject<Chunk>(1,pos);
     c1->createChunk();
     chunkManager->chunks.push_back(c1);
 
-    function onReceiveDataEvent = [&](char* buffer, int bufSize, int n)
+    function onReceiveDataEvent = [=](char* buffer, int bufSize, int n)
     {
         if(n == sizeof(vec3))
         {
@@ -82,13 +90,23 @@ void GameScene::start()
                 deletedCube = true;
             spawnedCubePos = msg.pos;
         }
-        else
+        else if(n == sizeof(ClientJoinMessage))
         {
-            if(buffer[0]=='S')
-            {
-                first = true;
-                spawned = true;
-            }
+            ClientJoinMessage msg;
+            memcpy(&msg, buffer, sizeof(ClientJoinMessage));
+
+            //spawnSecondPlayer(msg);
+        }
+        else if(n == sizeof(ChatMessage))
+        {
+            ChatMessage msg;
+            memcpy(&msg, buffer, sizeof(ClientJoinMessage));
+
+            string message = msg.sender;
+            message += ": ";
+            message += msg.msg;
+
+            chatView->addElement(message.c_str());
         }
     };
 
@@ -99,15 +117,7 @@ void GameScene::start()
 void GameScene::update(float dt)
 {
     Scene::update(dt);
-
-    if(spawned)
-    {
-        spawned = false;
-        otherPlayer = instantiateGameObject<ModelObject>(3, PrimitiveTypes::Cube);
-        otherPlayer->getComponent<Transform>()->position = vec3(5.0f,2.0f,5.0f);
-        playerListView->addPlayer(Player::playerName);
-        printf("Spawn second player");
-    }
+    UdpClient::getInstance()->update();
 
     if(spawnedCube)
     {
@@ -139,6 +149,14 @@ void GameScene::update(float dt)
     }
 
     Camera::getInstance().rotation -= vec3(0,-InputHandler::mouseMovement.x,InputHandler::mouseMovement.y);
+}
+
+void GameScene::spawnSecondPlayer(ClientJoinMessage &msg)
+{
+    otherPlayer = instantiateGameObject<ModelObject>(3, PrimitiveTypes::Cube);
+    otherPlayer->getComponent<Transform>()->position = vec3(5.0f,2.0f,5.0f);
+    playerListView->addElement(msg.playerName);
+    printf("Spawn second player");
 }
 
 } // Empyria

@@ -35,9 +35,6 @@ void UdpClient::init()
         exit(0);
     }
 
-    ClientJoinMessage joinMessage;
-    sendData(joinMessage);
-
     listenData();
 }
 
@@ -48,9 +45,19 @@ void UdpClient::listenData()
         char buffer[BUFFER_SIZE];
         int n;
         n = recvfrom(sockfd, buffer, sizeof(buffer), 0, (struct sockaddr*)NULL, NULL);
-        //printf("Received message: %s\n", buffer);
 
-        auto t = std::async(&UdpClient::receivedData, this, buffer, BUFFER_SIZE, n);
+        if(n == sizeof(glm::vec3))
+            receivedData(buffer, BUFFER_SIZE, n);
+
+        else
+        {
+            QueuedMessage msg;
+            msg.buffer = buffer;
+            msg.bufferSize = BUFFER_SIZE;
+            msg.n = n;
+
+            queuedMessages.push_back(msg);
+        }
     }
 }
 
@@ -64,6 +71,24 @@ void UdpClient::receivedData(char * buffer, int bufferSize, int n)
 {
     for(auto onReceiveData : onReceiveDataEvents)
         onReceiveData(buffer, bufferSize, n);
+}
+
+void UdpClient::update()
+{
+    while (!queuedMessages.empty())
+    {
+        auto queuedMsg = queuedMessages.back();
+
+        if(queuedMsg.n == sizeof(BlockStateMessage))
+        {
+
+        }
+
+        for(auto onReceiveData : onReceiveDataEvents)
+            onReceiveData(queuedMsg.buffer, queuedMsg.bufferSize, queuedMsg.n);
+
+        queuedMessages.pop_back();
+    }
 }
 
 } // Engine

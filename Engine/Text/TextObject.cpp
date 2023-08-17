@@ -11,5 +11,6 @@ TextObject::TextObject(const char* text, const Font& font)
     addComponent<RectTransform>();
     addComponent<TextRenderer>();
     getComponent<TextRenderer>()->init(font, text);
+    setText(text);
 }
 } // Engine
