@@ -138,6 +138,12 @@ void MeshRenderer::init(const std::string modelFilePath, std::string texturePath
     model = glm::mat4(1.0f);
 }
 
+void MeshRenderer::init(Mesh &mesh)
+{
+    this->mesh = &mesh;
+    model = glm::mat4(1.0f);
+}
+
 void MeshRenderer::start()
 {
 

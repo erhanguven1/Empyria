@@ -27,4 +27,11 @@ ModelObject::ModelObject(string modelPath, string imagePath)
     addComponent<MeshRenderer>();
     getComponent<MeshRenderer>()->init(modelPath, imagePath);
 }
+
+ModelObject::ModelObject(Mesh &fromMesh)
+{
+    addComponent<Transform>();
+    addComponent<MeshRenderer>();
+    getComponent<MeshRenderer>()->init(fromMesh);
+}
 } // Engine

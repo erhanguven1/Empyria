@@ -42,6 +42,11 @@ public:
 
     }
 
+    Block(Mesh& fromMesh) : ModelObject(fromMesh)
+    {
+
+    }
+
     void calculatePlanes()
     {
         vec3 center = vec3(x,y,z);

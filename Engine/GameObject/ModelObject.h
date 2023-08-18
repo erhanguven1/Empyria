@@ -16,6 +16,7 @@ public:
     ModelObject(const PrimitiveTypes& primitiveType);
     ModelObject(const PrimitiveTypes& primitiveType, string imagePath);
     ModelObject(string modelPath, string imagePath);
+    ModelObject(Mesh& fromMesh);
 private:
 };
 
