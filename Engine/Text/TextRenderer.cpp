@@ -12,8 +12,9 @@
 
 namespace Engine
 {
-void TextRenderer::init(const Font &font, std::string text)
+void TextRenderer::init(const Font &font, std::string text, Alignment al)
 {
+    alignment = al;
     this->text = text;
     std::string fontStr = "/Users/erhanguven/CLionProjects/Empyria/Engine/Fonts/";
     fontStr += fontNames[font];
@@ -103,7 +104,7 @@ void TextRenderer::update(float dt)
 
 void TextRenderer::render(Engine::RectTransform &rectTransform)
 {
-    float x = 400.0f*rectTransform.position.x/1024.0f + 256*1.55 - text.length() * 12.5f;
+    float x = rectTransform.position.x/5.0f;
     float y = 370 + rectTransform.position.y * .5f;
 
     float scaleX = rectTransform.scale.x;
@@ -121,9 +122,8 @@ void TextRenderer::render(Engine::RectTransform &rectTransform)
     glDisable(GL_CULL_FACE);
     glClear(GL_DEPTH_BUFFER_BIT);
 
-    glm::vec3 color = vec3(0,0,0);
     glUseProgram(Shaders::textShaderProgram);
-    glUniform3f(glGetUniformLocation(Shaders::textShaderProgram, "textColor"), color.x, color.y, color.z);
+    glUniform4f(glGetUniformLocation(Shaders::textShaderProgram, "textColor"), color.x, color.y, color.z, color.w);
 
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(mesh->vao);
@@ -131,15 +131,18 @@ void TextRenderer::render(Engine::RectTransform &rectTransform)
     // iterate through all characters
     std::string::const_iterator c;
 
-    float ww = 0;
-
-    for (c = text.begin(); c != text.end(); c++)
+    if(alignment == Alignment::MIDDLE)
     {
-        Character ch = characters[*c];
-        ww += (ch.Size.x) * scaleX / 2.0f + ch.Bearing.x / 2.0f;
-    }
+        float ww = 0;
 
-    x = rectTransform.position.x/2.0f + 768/1.5f - ww;
+        for (c = text.begin(); c != text.end(); c++)
+        {
+            Character ch = characters[*c];
+            ww += (ch.Size.x) * scaleX / 2.0f + ch.Bearing.x / 2.0f;
+        }
+
+        x = rectTransform.position.x/2.0f + 768/1.5f - ww;
+    }
 
     for (c = text.begin(); c != text.end(); c++)
     {

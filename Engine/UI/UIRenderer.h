@@ -49,7 +49,7 @@ class UIRenderer : public Component
 {
 friend class Mesh;
 public:
-    void init(std::string texturePath = "", bool _isButton = false);
+    void init(std::string texturePath = "", vec4 col = vec4(1,1,1,1), bool _isButton = false);
 
     void start() override;
     void update(float dt) override;
@@ -60,7 +60,7 @@ public:
 
     inline ButtonState& getButtonState(){ return buttonState; }
 
-    vec3 color = vec3(1.0f);
+    vec4 color = vec4(1.0f);
 private:
     Mesh* mesh = nullptr;
     bool isButton = false;

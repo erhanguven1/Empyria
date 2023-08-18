@@ -59,6 +59,7 @@ public:
     }
 
     bool isDead = false;
+    bool render = true;
 
 private:
     unordered_map<string, shared_ptr<Component>> components;

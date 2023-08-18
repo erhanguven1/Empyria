@@ -14,6 +14,9 @@ void GameObject::update(float dt)
         if(comp.second != nullptr)
         {
             comp.second->update(dt);
+            if(!render)
+                continue;
+
             if(comp.first == string(typeid(UIRenderer).name()))
             {
                 static_pointer_cast<UIRenderer>(comp.second)->render(*getComponent<RectTransform>());

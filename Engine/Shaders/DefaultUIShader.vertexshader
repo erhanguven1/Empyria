@@ -6,14 +6,16 @@ layout (location = 2) in vec2 aTexCoord;
 uniform vec2 pos;
 uniform vec2 scale;
 uniform vec3 color;
+uniform float alpha = 1.0;
 
-out vec3 col;
+out vec4 col;
 out vec2 texCoord;
 
 void main()
 {
     vec2 scaledPos = vec2(aPos.x * scale.x, aPos.y * scale.y);
     gl_Position = vec4(scaledPos + pos, 0.0, 1.0);
-    col = aColor * color;
+    vec3 colVec3 = aColor * color;
+    col = vec4(colVec3, alpha);
     texCoord = aTexCoord;
 }

@@ -18,7 +18,7 @@ public:
 
     }
 
-    TextObject(const char* text, const Font& font = Font::arial);
+    TextObject(const char* text, const Font& font = Font::arial, Alignment alignment = Alignment::MIDDLE);
 
     inline void setText(const char* t)
     {
@@ -42,6 +42,15 @@ public:
             return;
         text.pop_back();
         getComponent<TextRenderer>()->setText(text.c_str());
+    }
+
+    inline void setColor(const vec4& col)
+    {
+        getComponent<TextRenderer>()->setColor(col);
+    }
+    inline void setAlpha(const float& alpha)
+    {
+        getComponent<TextRenderer>()->setAlpha(alpha);
     }
 protected:
     ~TextObject() override

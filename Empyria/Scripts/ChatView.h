@@ -16,9 +16,9 @@ namespace Empyria
 class ChatView : public Engine::ListView
 {
 public:
-    ChatView() : Engine::ListView(vec2(-500,0),512,384,75,15,30)
+    ChatView() : Engine::ListView(vec2(-700,0),512,768,75,15,15,Engine::Alignment::LEFT)
     {
-
+        setTextColor(vec4(1,0,0,1));
     }
 private:
 };

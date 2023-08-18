@@ -6,11 +6,11 @@
 
 namespace Engine
 {
-TextObject::TextObject(const char* text, const Font& font)
+TextObject::TextObject(const char* text, const Font& font, Alignment alignment)
 {
     addComponent<RectTransform>();
     addComponent<TextRenderer>();
-    getComponent<TextRenderer>()->init(font, text);
+    getComponent<TextRenderer>()->init(font, text, alignment);
     setText(text);
 }
 } // Engine

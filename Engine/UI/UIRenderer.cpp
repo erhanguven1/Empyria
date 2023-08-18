@@ -11,8 +11,9 @@
 
 namespace Engine
 {
-void UIRenderer::init(std::string texturePath, bool _isButton)
+void UIRenderer::init(std::string texturePath, vec4 col, bool _isButton)
 {
+    color = col;
     isButton = _isButton;
 
     float vertex_buffer_data[] = {
@@ -76,6 +77,9 @@ void UIRenderer::render(RectTransform& rectTransform)
     GLuint colorId = glGetUniformLocation(Shaders::uiShaderProgram, "color");
     glUniform3fv(colorId, 1, &color[0]);
 
+    GLuint alphaId = glGetUniformLocation(Shaders::uiShaderProgram, "alpha");
+    glUniform1f(alphaId, color.w);
+
     glBindTexture(GL_TEXTURE_2D, mesh->texture);
     glBindVertexArray(mesh->vao);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -96,12 +100,12 @@ void UIRenderer::updateRaycastInfo(int& left, int& right, int& top, int& bottom)
             buttonState.isClicked = InputHandler::mouseStates[0] == 1;
             if(buttonState.isClicked)
             {
-                color = vec3(.5f,.5f,.5f);
+                color = vec4(.5f,.5f,.5f, 1.0f);
                 buttonState.onClick();
             }
             else
             {
-                color = vec3(.75f,.75f,.75f);
+                color = vec4(.75f,.75f,.75f, 1.0f);
             }
         }
         else
@@ -109,7 +113,7 @@ void UIRenderer::updateRaycastInfo(int& left, int& right, int& top, int& bottom)
             if(InputHandler::mouseStates[0] == 0)
             {
                 buttonState.isClicked = false;
-                color = vec3(.75f,.75f,.75f);
+                color = vec4(.75f,.75f,.75f,1);
                     buttonState.onRelease();
             }
         }
@@ -117,7 +121,7 @@ void UIRenderer::updateRaycastInfo(int& left, int& right, int& top, int& bottom)
     else
     {
         buttonState.isClicked = false;
-        color = vec3(1,1,1);
+        color = vec4(1,1,1,1);
     }
 }
 } // Engine

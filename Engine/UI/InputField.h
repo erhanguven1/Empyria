@@ -15,7 +15,7 @@ namespace Engine
 class InputField : public UIObject
 {
 public:
-    InputField() : UIObject("",true)
+    InputField() : UIObject("",vec4(1,1,1,1),true)
     {
         textObject = SceneManager::getActiveScene()->instantiateGameObject<TextObject>(4,"abcdefghijklmnopqrstuvwxyz ",Font::arial);
         textObject->setText("");

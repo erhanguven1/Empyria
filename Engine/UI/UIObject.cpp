@@ -6,14 +6,14 @@
 
 namespace Engine
 {
-UIObject::UIObject(string imagePath, bool isButton)
+UIObject::UIObject(string imagePath, vec4 color, bool isButton)
 {
     setOrder(getOrder()+1000);
     addComponent<RectTransform>();
     addComponent<UIRenderer>();
     if(auto uiRenderer = getComponent<UIRenderer>())
     {
-        uiRenderer->init(imagePath, isButton);
+        uiRenderer->init(imagePath, color, isButton);
     }
 }
 } // Engine

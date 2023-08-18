@@ -17,9 +17,9 @@ namespace Empyria
 class PlayerListView : public Engine::ListView
 {
 public:
-    PlayerListView() : Engine::ListView(vec2(500,0),256,384,75,15,30)
+    PlayerListView() : Engine::ListView(vec2(700,192),384,384,75,15,30,Engine::Alignment::MIDDLE)
     {
-
+        setTextColor(vec4(0.5f,0.0f,0.25f,1));
     }
 };
 

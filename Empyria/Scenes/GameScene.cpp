@@ -23,6 +23,10 @@ void GameScene::start()
     strcpy(joinMessage.playerName, Player::playerName.c_str());
     UdpClient::getInstance()->sendData(joinMessage);
 
+    FetchOtherPlayerMessage fetchPlayerNameMsg;
+    strcpy(fetchPlayerNameMsg.playerName, Player::playerName.c_str());
+    UdpClient::getInstance()->sendData(fetchPlayerNameMsg);
+
     auto* messageInputField = instantiateGameObject<InputField>(3);
     messageInputField->getComponent<RectTransform>()->position = vec2(-486,-612);
     messageInputField->getComponent<RectTransform>()->scale.x = 1.0f;
@@ -33,6 +37,7 @@ void GameScene::start()
         strcpy(chatMsg.sender, Player::playerName.c_str());
         strcpy(chatMsg.msg, messageInputField->getTextObject()->getText().c_str());
         UdpClient::getInstance()->sendData(chatMsg);
+        messageInputField->getTextObject()->setText("");
     };
 
     messageInputField->registerOnPressEnter(messageInput_onPressEnter);
@@ -95,7 +100,7 @@ void GameScene::start()
             ClientJoinMessage msg;
             memcpy(&msg, buffer, sizeof(ClientJoinMessage));
 
-            //spawnSecondPlayer(msg);
+            spawnSecondPlayer(msg);
         }
         else if(n == sizeof(ChatMessage))
         {
@@ -107,6 +112,13 @@ void GameScene::start()
             message += msg.msg;
 
             chatView->addElement(message.c_str());
+        }
+        else if(n == sizeof(FetchOtherPlayerMessage))
+        {
+            FetchOtherPlayerMessage msg;
+            memcpy(&msg, buffer, sizeof(FetchOtherPlayerMessage));
+
+            playerListView->addElement(msg.playerName);
         }
     };
 
@@ -139,22 +151,19 @@ void GameScene::update(float dt)
         return;
 
     if(InputHandler::onPressMouseButton(GLFW_MOUSE_BUTTON_1))
-    {
         voxelRaycaster->deleteCube();
-    }
 
     if(InputHandler::onPressMouseButton(GLFW_MOUSE_BUTTON_2))
-    {
         voxelRaycaster->spawnCube();
-    }
 
     Camera::getInstance().rotation -= vec3(0,-InputHandler::mouseMovement.x,InputHandler::mouseMovement.y);
 }
 
 void GameScene::spawnSecondPlayer(ClientJoinMessage &msg)
 {
-    otherPlayer = instantiateGameObject<ModelObject>(3, PrimitiveTypes::Cube);
+    /*otherPlayer = instantiateGameObject<ModelObject>(3, PrimitiveTypes::Cube);
     otherPlayer->getComponent<Transform>()->position = vec3(5.0f,2.0f,5.0f);
+    otherPlayer->getComponent<Transform>()->position = vec3(5.0f,2.0f,5.0f);*/
     playerListView->addElement(msg.playerName);
     printf("Spawn second player");
 }

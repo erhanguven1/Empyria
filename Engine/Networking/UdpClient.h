@@ -29,6 +29,11 @@ struct QueuedMessage
     int n;
 };
 
+struct FetchOtherPlayerMessage
+{
+    char playerName[15] = "";
+};
+
 struct ClientJoinMessage
 {
     char msg[41] = "WHello server, I am the clientest client";

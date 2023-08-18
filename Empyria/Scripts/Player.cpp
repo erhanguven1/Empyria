@@ -43,32 +43,6 @@ void Player::update(float dt)
         }
     }
 
-    auto blocksAroundPlayer = m_voxelRaycaster.blocksAroundPoint(getComponent<Transform>()->position);
-
-    if(blocksAroundPlayer[0] != nullptr)
-    {
-        if(deltaPos.z < 0)
-            deltaPos.z = 0.0f;
-    }
-
-    if(blocksAroundPlayer[1] != nullptr)
-    {
-        if(deltaPos.z > 0)
-            deltaPos.z = 0.0f;
-    }
-
-    if(blocksAroundPlayer[2] != nullptr)
-    {
-        if(deltaPos.x < 0)
-            deltaPos.x = 0.0f;
-    }
-
-    if(blocksAroundPlayer[3] != nullptr)
-    {
-        if(deltaPos.x > 0)
-            deltaPos.x = 0.0f;
-    }
-
     if(!ChatManager::getIsChatActive())
     {
         if ((InputHandler::keyStates[GLFW_KEY_A] == GLFW_REPEAT || InputHandler::keyStates[GLFW_KEY_A] == GLFW_PRESS))
@@ -82,6 +56,32 @@ void Player::update(float dt)
 
         if (InputHandler::keyStates[GLFW_KEY_S] == GLFW_REPEAT || InputHandler::keyStates[GLFW_KEY_S] == GLFW_PRESS)
             deltaPos += -camLook*0.05f;
+
+        auto blocksAroundPlayer = m_voxelRaycaster.blocksAroundPoint(getComponent<Transform>()->position);
+
+        if(blocksAroundPlayer[0] != nullptr)
+        {
+            if(deltaPos.z < 0)
+                deltaPos.z = 0.0f;
+        }
+
+        if(blocksAroundPlayer[1] != nullptr)
+        {
+            if(deltaPos.z > 0)
+                deltaPos.z = 0.0f;
+        }
+
+        if(blocksAroundPlayer[2] != nullptr)
+        {
+            if(deltaPos.x < 0)
+                deltaPos.x = 0.0f;
+        }
+
+        if(blocksAroundPlayer[3] != nullptr)
+        {
+            if(deltaPos.x > 0)
+                deltaPos.x = 0.0f;
+        }
 
         if(InputHandler::onPressKey(GLFW_KEY_SPACE))
         {

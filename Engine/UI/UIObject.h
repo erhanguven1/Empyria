@@ -17,7 +17,7 @@ public:
     {
 
     }
-    UIObject(string imagePath, bool isButton = false);
+    UIObject(string imagePath, vec4 color = vec4(1,1,1,1), bool isButton = false);
 
 protected:
     ~UIObject() override

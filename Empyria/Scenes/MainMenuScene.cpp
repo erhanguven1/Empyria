@@ -24,12 +24,12 @@ MainMenuScene::MainMenuScene() : Scene()
     background->getComponent<RectTransform>()->scale.x = 2.0f;
     background->getComponent<RectTransform>()->scale.y = 2.0f;
 
-    playButton = instantiateGameObject<UIObject>(2, "Menu/start-button.png", true);
+    playButton = instantiateGameObject<UIObject>(2, "Menu/start-button.png",vec4(1,1,1,1), true);
     playButton->getComponent<RectTransform>()->position.y = 0;
     playButton->getComponent<RectTransform>()->scale.x = 0.5f;
     playButton->getComponent<RectTransform>()->scale.y *= 0.25f;
 
-    exitButton = instantiateGameObject<UIObject>(2, "Menu/exit-button.png", true);
+    exitButton = instantiateGameObject<UIObject>(2, "Menu/exit-button.png",vec4(1,1,1,1), true);
     exitButton->getComponent<RectTransform>()->position.y = -200;
     exitButton->getComponent<RectTransform>()->scale.x = 0.5 * 0.75f;
     exitButton->getComponent<RectTransform>()->scale.y *= 0.25f * 0.75f;
